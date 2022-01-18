@@ -1,4 +1,5 @@
 #### importing libraries
+from __future__ import print_function
 import mysql.connector
 from mysql.connector import errorcode
 import getpass
@@ -54,12 +55,95 @@ def main():
     #### create cursor for further usage
     mycursor = connection.cursor()
 
-    # #### create database
+    mycursor.execute("use WorkoutTrackerDB")
+
+    #### create database
     # mycursor.execute("CREATE DATABASE WorkoutTrackerDB")
-    mycursor.execute("SHOW DATABASES")
-    for x in mycursor:
-        print(x)
+    
+    #### create tables
+    # table_1 = '''CREATE TABLE personal_information (
+    #     person_id int auto_increment primary key,
+    #     first_name varchar(90),
+    #     last_name varchar(90),
+    #     birth_date date,
+    #     phone_number int default null,
+    #     nationality varchar(90),
+    #     registration_date date
+    # )'''
+    # mycursor.execute(table_1)
+
+    # table_2 = '''CREATE TABLE diet (
+    #     diet_id int auto_increment primary key,
+    #     person_id int,
+    #     name varchar(90),
+    #     start_date date,
+    #     stop_date date,
+    #     calories int default null,
+    #     foreign key (person_id) references personal_information(person_id)
+    # )'''
+    # table_2_cst = "ALTER TABLE diet MODIFY person_id int NOT NULL"
+    # mycursor.execute(table_2)
+    # mycursor.execute(table_2_cst)
+
+    # table_3 = '''CREATE TABLE running (
+    #     running_id int auto_increment primary key,
+    #     person_id int,
+    #     date date,
+    #     type varchar(90),
+    #     total_time int default null,
+    #     total_distance int default null,
+    #     terrain varchar(90),
+    #     foreign key (person_id) references personal_information(person_id)
+    # )'''
+    # table_3_cst = "ALTER TABLE running MODIFY person_id int NOT NULL"
+    # mycursor.execute(table_3)
+    # mycursor.execute(table_3_cst)
+    
+    # table_4= '''CREATE TABLE swimming (
+    #     swimming_id int auto_increment primary key,
+    #     person_id int,
+    #     date date,
+    #     type varchar(90),
+    #     total_time int default null,
+    #     total_distance int default null,
+    #     water varchar(90),
+    #     foreign key (person_id) references personal_information(person_id)
+    # )'''
+    # table_4_cst = "ALTER TABLE swimming MODIFY person_id int NOT NULL"
+    # mycursor.execute(table_4)
+    # mycursor.execute(table_4_cst)
+
+    # table_5= '''CREATE TABLE weight_lifting (
+    #     weight_lifting_id int auto_increment primary key,
+    #     person_id int,
+    #     date date,
+    #     type varchar(90),
+    #     no_series int default null,
+    #     repeats_per_series int default null,
+    #     weight int default null,
+    #     foreign key (person_id) references personal_information(person_id)
+    # )'''
+    # table_5_cst = "ALTER TABLE weight_lifting MODIFY person_id int NOT NULL"
+    # mycursor.execute(table_5)
+    # mycursor.execute(table_5_cst)
+
+    # table_6= '''CREATE TABLE rest (
+    #     rest_id int auto_increment primary key,
+    #     person_id int,
+    #     date date,
+    #     night_sleep_hours int default null,
+    #     relax_hours int default null,
+    #     foreign key (person_id) references personal_information(person_id)
+    # )'''
+    # table_6_cst = "ALTER TABLE rest MODIFY person_id int NOT NULL"
+    # mycursor.execute(table_6)
+    # mycursor.execute(table_6_cst)
+
+
 
 
 if __name__ == "__main__":
     main()
+
+#### references
+# https://dev.mysql.com/doc/
