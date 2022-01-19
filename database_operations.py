@@ -194,7 +194,17 @@ def createAdminUser(password, user="root"):
     mycursor.execute(admin_user)
 
 
-def createUser(firstName, lastName, birthDate, phoneNumber, nationality, registrationDate, userPassword, rootPassword, user="root"):
+def createUser(
+    firstName,
+    lastName,
+    birthDate,
+    phoneNumber,
+    nationality,
+    registrationDate,
+    userPassword,
+    rootPassword,
+    user="root",
+):
     connection = openConnectionToDB(
         host="localhost",
         user=user,
@@ -204,39 +214,66 @@ def createUser(firstName, lastName, birthDate, phoneNumber, nationality, registr
     mycursor = connection.cursor()
 
     addUserToTable = "insert into personal_information (first_name, last_name, birth_date, phone_number, nationality, registration_date) values ("
-    addUserToTable += ("\"" + firstName + "\", ")
-    addUserToTable += ("\"" + lastName + "\", ")
-    addUserToTable += ("\"" + birthDate + "\", ")
-    addUserToTable += (str(phoneNumber) + ", ")
-    addUserToTable += ("\"" + nationality + "\", ")
-    addUserToTable += ("\"" + registrationDate + "\");")
-    
+    addUserToTable += '"' + firstName + '", '
+    addUserToTable += '"' + lastName + '", '
+    addUserToTable += '"' + birthDate + '", '
+    addUserToTable += str(phoneNumber) + ", "
+    addUserToTable += '"' + nationality + '", '
+    addUserToTable += '"' + registrationDate + '");'
+
     mycursor.execute(addUserToTable)
     connection.commit()
 
     getUserId = "select person_id from personal_information pi where "
-    getUserId += ("pi.first_name=\"" + firstName + "\" and ")
-    getUserId += ("pi.last_name=\"" + lastName + "\" and ")
-    getUserId += ("pi.birth_date=\"" + birthDate + "\" and ")
-    getUserId += ("pi.phone_number=" + str(phoneNumber) + " and ")
-    getUserId += ("pi.nationality=\"" + nationality + "\" and ")
-    getUserId += ("pi.registration_date=\"" + registrationDate + "\";")
+    getUserId += 'pi.first_name="' + firstName + '" and '
+    getUserId += 'pi.last_name="' + lastName + '" and '
+    getUserId += 'pi.birth_date="' + birthDate + '" and '
+    getUserId += "pi.phone_number=" + str(phoneNumber) + " and "
+    getUserId += 'pi.nationality="' + nationality + '" and '
+    getUserId += 'pi.registration_date="' + registrationDate + '";'
 
     userId = 0
     mycursor.execute(getUserId)
     for x in mycursor:
         userId = x[0]
-    
-    user_1 = "create user 'user_"+ str(userId) +"'@'localhost' identified by '" + userPassword + "';"
-    user_2 = " revoke all privileges, grant option from 'user_"+ str(userId) +"'@'localhost';"
-    user_3 = "grant select on WorkoutTrackerDB.* to 'user_"+ str(userId) +"'@'localhost';"
-    user_4 = "grant alter on WorkoutTrackerDB.* to 'user_"+ str(userId) +"'@'localhost';"
 
-    mycursor.execute(user_1)
+    user_1 = (
+        "create user 'user_"
+        + str(userId)
+        + "'@'localhost' identified by '"
+        + userPassword
+        + "';"
+    )
+    user_2 = (
+        "revoke all privileges, grant option from 'user_"
+        + str(userId)
+        + "'@'localhost';"
+    )
+    user_3 = (
+        "grant all privileges on WorkoutTrackerDB.* to 'user_"
+        + str(userId)
+        + "'@'localhost';"
+    )
+    user_4 = (
+        "grant alter on WorkoutTrackerDB.* to 'user_" + str(userId) + "'@'localhost';"
+    )
+
+    # mycursor.execute(user_1)
     mycursor.execute(user_2)
     mycursor.execute(user_3)
     mycursor.execute(user_4)
 
 
+def addRecordToRunningTable(
+    connection, cursor, person_id, date, type, total_time, total_distance, terrain
+):
+    addRecordToTable = "insert into running (person_id, date, type, total_time, total_distance, terrain) values ("
+    addRecordToTable += str(person_id) + ", "
+    addRecordToTable += '"' + date + '", '
+    addRecordToTable += '"' + type + '", '
+    addRecordToTable += str(total_time) + ", "
+    addRecordToTable += str(total_distance) + ", "
+    addRecordToTable += '"' + terrain + '");'
 
-
+    cursor.execute(addRecordToTable)
+    connection.commit()
