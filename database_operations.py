@@ -268,7 +268,14 @@ def addRecordToRunningTable(
     connection, cursor, person_id, date, type, total_time, total_distance, terrain
 ):
     sqlQueryForm = "insert into running (person_id, date, type, total_time, total_distance, terrain) values (%s, %s, %s, %s, %s, %s)"
-    sqlQueryData = (str(person_id), date, type, str(total_time), str(total_distance), terrain)
+    sqlQueryData = (
+        str(person_id),
+        date,
+        type,
+        str(total_time),
+        str(total_distance),
+        terrain,
+    )
 
     try:
         connection.autocommit = False
@@ -296,7 +303,14 @@ def addRecordToSwimmingTable(
     connection, cursor, person_id, date, type, total_time, total_distance, water
 ):
     sqlQueryForm = "insert into running (person_id, date, type, total_time, total_distance, terrain) values (%s, %s, %s, %s, %s, %s)"
-    sqlQueryData = (str(person_id), date, type, str(total_time), str(total_distance), water)
+    sqlQueryData = (
+        str(person_id),
+        date,
+        type,
+        str(total_time),
+        str(total_distance),
+        water,
+    )
 
     try:
         connection.autocommit = False
@@ -310,7 +324,14 @@ def addRecordToWeightLiftingTable(
     connection, cursor, person_id, date, type, no_series, repeats_per_series, weight
 ):
     sqlQueryForm = "insert into running (person_id, date, type, no_series, repeats_per_series, weight) values (%s, %s, %s, %s, %s, %s)"
-    sqlQueryData = (str(person_id), date, type, str(no_series), str(repeats_per_series), str(weight))
+    sqlQueryData = (
+        str(person_id),
+        date,
+        type,
+        str(no_series),
+        str(repeats_per_series),
+        str(weight),
+    )
 
     try:
         connection.autocommit = False
