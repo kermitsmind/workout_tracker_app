@@ -2,6 +2,7 @@
 from __future__ import print_function
 import mysql.connector
 from mysql.connector import errorcode
+import os
 
 
 #### open connection with given credentials and return the connection object
@@ -141,6 +142,19 @@ def createDatabaseTables(host, user, password, database):
     mycursor.execute(table_6)
     mycursor.execute(table_6_cst)
 
+def createDatabaseBackup(backupName):
+    command = "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysqldump --user=super_user -p WorkoutTrackerDB > " + str(backupName)
+    print(command)
+    os.system(command)
+
+
+def restoreDatabaseBackup(backupName):
+    command = "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysql --host=localhost --user=super_user --port=3306 -p WorkoutTrackerDB < " + str(backupName)
+    os.system(command)
+
+
+
+# os.system("/usr/local/mysql-8.0.27-macos11-arm64/bin/mysql --host=localhost --user=super_user --port=3306 -p WorkoutTrackerDB < bbb.sql")
 
 #### references
 # https://dev.mysql.com/doc/
