@@ -192,3 +192,55 @@ def createAdminUser(password, user="root"):
     grant alter on WorkoutTrackerDB.* to 'admin_user'@'localhost';
     """
     mycursor.execute(admin_user)
+
+
+def createUser(firstName, lastName, birthDate, phoneNumber, nationality, registrationDate, userPassword, rootPassword, user="root"):
+    connection = openConnectionToDB(
+        host="localhost",
+        user=user,
+        password=rootPassword,
+        database="WorkoutTrackerDB",
+    )
+    mycursor = connection.cursor()
+
+    mycursor.execute("show tables")
+    for x in mycursor:
+        print(x)
+
+    addUserToTable = "insert into personal_information (first_name, last_name, birth_date, phone_number, nationality, registration_date) values ("
+    addUserToTable += ("\"" + firstName + "\", ")
+    addUserToTable += ("\"" + lastName + "\", ")
+    addUserToTable += ("\"" + birthDate + "\", ")
+    addUserToTable += (str(phoneNumber) + ", ")
+    addUserToTable += ("\"" + nationality + "\", ")
+    addUserToTable += ("\"" + registrationDate + "\");")
+    
+    mycursor.execute(addUserToTable)
+    connection.commit()
+
+    getUserId = "select person_id from personal_information pi where "
+    getUserId += ("pi.first_name=\"" + firstName + "\" and ")
+    getUserId += ("pi.last_name=\"" + lastName + "\" and ")
+    getUserId += ("pi.birth_date=\"" + birthDate + "\" and ")
+    getUserId += ("pi.phone_number=" + str(phoneNumber) + " and ")
+    getUserId += ("pi.nationality=\"" + nationality + "\" and ")
+    getUserId += ("pi.registration_date=\"" + registrationDate + "\";")
+
+    userId = 0
+    mycursor.execute(getUserId)
+    for x in mycursor:
+        userId = x[0]
+    
+    user_1 = "create user 'user_"+ str(userId) +"'@'localhost' identified by '" + userPassword + "';"
+    user_2 = " revoke all privileges, grant option from 'user_"+ str(userId) +"'@'localhost';"
+    user_3 = "grant select on WorkoutTrackerDB.* to 'user_"+ str(userId) +"'@'localhost';"
+    user_4 = "grant alter on WorkoutTrackerDB.* to 'user_"+ str(userId) +"'@'localhost';"
+
+    mycursor.execute(user_1)
+    mycursor.execute(user_2)
+    mycursor.execute(user_3)
+    mycursor.execute(user_4)
+
+
+
+

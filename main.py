@@ -13,19 +13,34 @@ adminUserPassword = "admin_user_password"
 
 def main():
 
-    #### open coccenction
+    #### open connenction as super user
+    # connection = database_operations.openConnectionToDB(
+    #     host="localhost",
+    #     user="super_user",
+    #     password=superUserPassword,
+    #     database="WorkoutTrackerDB",
+    # )
+
+    # mycursor = connection.cursor()
+
+    # mycursor.execute("select * from personal_information")
+    # for x in mycursor:
+    #     print(x)
+
+    #### add sample user
+    # database_operations.createUser(firstName="Adam", lastName="Smith", birthDate="1998-03-12", phoneNumber=123456789, nationality="Polish", registrationDate="2011-12-12", userPassword="user_1_password", rootPassword=rootPassword)
+
+    #### open connenction as user
     connection = database_operations.openConnectionToDB(
         host="localhost",
-        user="super_user",
-        password=superUserPassword,
+        user="user_1",
+        password="user_1_password",
         database="WorkoutTrackerDB",
     )
 
-    # database_operations.createAdminUser(password=rootPassword)
-
     mycursor = connection.cursor()
 
-    mycursor.execute("show grants for 'super_user'@'localhost'")
+    mycursor.execute("select * from personal_information")
     for x in mycursor:
         print(x)
 
