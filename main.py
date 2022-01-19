@@ -36,8 +36,8 @@ def main():
     ### open connenction as user
     connection = database_operations.openConnectionToDB(
         host="localhost",
-        user="user_1",
-        password="user_1_password",
+        user="user_2",
+        password="user_2_password",
         database="WorkoutTrackerDB",
     )
 
@@ -51,11 +51,11 @@ def main():
     database_operations.addRecordToRunningTable(
         connection=connection,
         cursor=mycursor,
-        person_id=1,
-        date="2022-01-24",
+        person_id=2,
+        date="2021-12-14",
         type="interval",
-        total_time=1578,
-        total_distance=2786,
+        total_time=1789,
+        total_distance=1786,
         terrain="outdoor",
     )
 

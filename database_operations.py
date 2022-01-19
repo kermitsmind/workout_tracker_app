@@ -270,5 +270,9 @@ def addRecordToRunningTable(
     sqlQueryForm = "insert into running (person_id, date, type, total_time, total_distance, terrain) values (%s, %s, %s, %s, %s, %s)"
     sqlQueryData = (str(person_id), date, type, str(total_time), str(total_distance), terrain)
 
-    cursor.execute(sqlQueryForm, sqlQueryData)
-    connection.commit()
+    try:
+        connection.autocommit = False
+        cursor.execute(sqlQueryForm, sqlQueryData)
+        connection.commit()
+    except:
+        connection.rollback()
