@@ -203,10 +203,6 @@ def createUser(firstName, lastName, birthDate, phoneNumber, nationality, registr
     )
     mycursor = connection.cursor()
 
-    mycursor.execute("show tables")
-    for x in mycursor:
-        print(x)
-
     addUserToTable = "insert into personal_information (first_name, last_name, birth_date, phone_number, nationality, registration_date) values ("
     addUserToTable += ("\"" + firstName + "\", ")
     addUserToTable += ("\"" + lastName + "\", ")

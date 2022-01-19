@@ -13,7 +13,7 @@ adminUserPassword = "admin_user_password"
 
 def main():
 
-    #### open connenction as super user
+    # #### open connenction as super user
     # connection = database_operations.openConnectionToDB(
     #     host="localhost",
     #     user="super_user",
@@ -27,14 +27,16 @@ def main():
     # for x in mycursor:
     #     print(x)
 
-    #### add sample user
-    # database_operations.createUser(firstName="Adam", lastName="Smith", birthDate="1998-03-12", phoneNumber=123456789, nationality="Polish", registrationDate="2011-12-12", userPassword="user_1_password", rootPassword=rootPassword)
+    # ### add sample user
+    # database_operations.createUser(firstName="John", lastName="Wynn", birthDate="1997-09-11", phoneNumber=123456789, nationality="Polish", registrationDate="2011-12-12", userPassword="user_2_password", rootPassword=rootPassword)
+
+    # database_operations.closeConnectionToDB(connection=connection)
 
     #### open connenction as user
     connection = database_operations.openConnectionToDB(
         host="localhost",
-        user="user_1",
-        password="user_1_password",
+        user="user_2",
+        password="user_2_password",
         database="WorkoutTrackerDB",
     )
 
@@ -43,6 +45,8 @@ def main():
     mycursor.execute("select * from personal_information")
     for x in mycursor:
         print(x)
+
+    database_operations.closeConnectionToDB(connection=connection)
 
 
 if __name__ == "__main__":
