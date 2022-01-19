@@ -8,6 +8,7 @@ passwordFile = open(
 )
 rootPassword = passwordFile.readline()[:-1]
 superUserPassword = "super_user_password"
+adminUserPassword = "admin_user_password"
 
 
 def main():
@@ -19,6 +20,8 @@ def main():
         password=superUserPassword,
         database="WorkoutTrackerDB",
     )
+
+    # database_operations.createAdminUser(password=rootPassword)
 
     mycursor = connection.cursor()
 
