@@ -290,3 +290,45 @@ def addRecordToDietTable(
         connection.commit()
     except:
         connection.rollback()
+
+
+def addRecordToSwimmingTable(
+    connection, cursor, person_id, date, type, total_time, total_distance, water
+):
+    sqlQueryForm = "insert into running (person_id, date, type, total_time, total_distance, terrain) values (%s, %s, %s, %s, %s, %s)"
+    sqlQueryData = (str(person_id), date, type, str(total_time), str(total_distance), water)
+
+    try:
+        connection.autocommit = False
+        cursor.execute(sqlQueryForm, sqlQueryData)
+        connection.commit()
+    except:
+        connection.rollback()
+
+
+def addRecordToWeightLiftingTable(
+    connection, cursor, person_id, date, type, no_series, repeats_per_series, weight
+):
+    sqlQueryForm = "insert into running (person_id, date, type, no_series, repeats_per_series, weight) values (%s, %s, %s, %s, %s, %s)"
+    sqlQueryData = (str(person_id), date, type, str(no_series), str(repeats_per_series), str(weight))
+
+    try:
+        connection.autocommit = False
+        cursor.execute(sqlQueryForm, sqlQueryData)
+        connection.commit()
+    except:
+        connection.rollback()
+
+
+def addRecordToRestTable(
+    connection, cursor, person_id, date, night_sleep_hours, relax_hours
+):
+    sqlQueryForm = "insert into diet (person_id, name, date, night_sleep_hours, relax_hours) values (%s, %s, %s, %s, %s)"
+    sqlQueryData = (str(person_id), date, str(night_sleep_hours), str(relax_hours))
+
+    try:
+        connection.autocommit = False
+        cursor.execute(sqlQueryForm, sqlQueryData)
+        connection.commit()
+    except:
+        connection.rollback()
