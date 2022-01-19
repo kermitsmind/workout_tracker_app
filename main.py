@@ -14,12 +14,12 @@ adminUserPassword = "admin_user_password"
 def main():
 
     # #### open connenction as super user
-    connection = database_operations.openConnectionToDB(
-        host="localhost",
-        user="super_user",
-        password=superUserPassword,
-        database="WorkoutTrackerDB",
-    )
+    # connection = database_operations.openConnectionToDB(
+    #     host="localhost",
+    #     user="super_user",
+    #     password=superUserPassword,
+    #     database="WorkoutTrackerDB",
+    # )
 
     # mycursor = connection.cursor(prepared=True)
 
@@ -48,15 +48,26 @@ def main():
     #     print(x)
 
     #### add sample record to running
-    database_operations.addRecordToRunningTable(
+    # database_operations.addRecordToRunningTable(
+    #     connection=connection,
+    #     cursor=mycursor,
+    #     person_id=2,
+    #     date="2021-12-14",
+    #     type="interval",
+    #     total_time=1789,
+    #     total_distance=1786,
+    #     terrain="outdoor",
+    # )
+
+    #### add sample record to diet
+    database_operations.addRecordToDietTable(
         connection=connection,
         cursor=mycursor,
         person_id=2,
-        date="2021-12-14",
-        type="interval",
-        total_time=1789,
-        total_distance=1786,
-        terrain="outdoor",
+        name="2000_calories",
+        start_date="2021-12-13",
+        stop_date="2022-11-14",
+        calories=2000,
     )
 
     database_operations.closeConnectionToDB(connection=connection)

@@ -276,3 +276,17 @@ def addRecordToRunningTable(
         connection.commit()
     except:
         connection.rollback()
+
+
+def addRecordToDietTable(
+    connection, cursor, person_id, name, start_date, stop_date, calories
+):
+    sqlQueryForm = "insert into diet (person_id, name, start_date, stop_date, calories) values (%s, %s, %s, %s, %s)"
+    sqlQueryData = (str(person_id), name, start_date, stop_date, str(calories))
+
+    try:
+        connection.autocommit = False
+        cursor.execute(sqlQueryForm, sqlQueryData)
+        connection.commit()
+    except:
+        connection.rollback()
