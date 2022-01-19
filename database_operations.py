@@ -142,19 +142,36 @@ def createDatabaseTables(host, user, password, database):
     mycursor.execute(table_6)
     mycursor.execute(table_6_cst)
 
+
 def createDatabaseBackup(backupName):
-    command = "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysqldump --user=super_user -p WorkoutTrackerDB > " + str(backupName)
+    command = (
+        "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysqldump --user=super_user -p WorkoutTrackerDB > "
+        + str(backupName)
+    )
     print(command)
     os.system(command)
 
 
 def restoreDatabaseBackup(backupName):
-    command = "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysql --host=localhost --user=super_user --port=3306 -p WorkoutTrackerDB < " + str(backupName)
+    command = (
+        "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysql --host=localhost --user=super_user --port=3306 -p WorkoutTrackerDB < "
+        + str(backupName)
+    )
     os.system(command)
 
 
-
-# os.system("/usr/local/mysql-8.0.27-macos11-arm64/bin/mysql --host=localhost --user=super_user --port=3306 -p WorkoutTrackerDB < bbb.sql")
-
-#### references
-# https://dev.mysql.com/doc/
+def createSuperUser(password, user="root"):
+    connection = openConnectionToDB(
+        host="localhost",
+        user=user,
+        password=password,
+        database="WorkoutTrackerDB",
+    )
+    mycursor = connection.cursor()
+    admin_user = """
+    create user 'super_user'@'localhost' identified by 'super_user_password';
+    revoke all privileges, grant option from 'super_user'@'localhost';
+    grant all privileges on WorkoutTrackerDB.* to 'super_user'@'localhost'; -- remember about .* after db name
+    grant process on WorkoutTrackerDB.* to super_user@localhost;
+    """
+    mycursor.execute(admin_user)
