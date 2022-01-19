@@ -42,7 +42,7 @@ def createDatabase(host, user, password):
             print(err)
 
     #### create cursor for further usage
-    mycursor = connection.cursor()
+    mycursor = connection.cursor(prepared=True)
 
     #### create database
     mycursor.execute("CREATE DATABASE WorkoutTrackerDB")
@@ -58,7 +58,7 @@ def createDatabaseTables(host, user, password, database):
     )
 
     #### create cursor for further usage
-    mycursor = connection.cursor()
+    mycursor = connection.cursor(prepared=True)
 
     #### select DB
     mycursor.execute("use WorkoutTrackerDB")
@@ -267,13 +267,8 @@ def createUser(
 def addRecordToRunningTable(
     connection, cursor, person_id, date, type, total_time, total_distance, terrain
 ):
-    addRecordToTable = "insert into running (person_id, date, type, total_time, total_distance, terrain) values ("
-    addRecordToTable += str(person_id) + ", "
-    addRecordToTable += '"' + date + '", '
-    addRecordToTable += '"' + type + '", '
-    addRecordToTable += str(total_time) + ", "
-    addRecordToTable += str(total_distance) + ", "
-    addRecordToTable += '"' + terrain + '");'
+    sqlQueryForm = "insert into running (person_id, date, type, total_time, total_distance, terrain) values (%s, %s, %s, %s, %s, %s)"
+    sqlQueryData = (str(person_id), date, type, str(total_time), str(total_distance), terrain)
 
-    cursor.execute(addRecordToTable)
+    cursor.execute(sqlQueryForm, sqlQueryData)
     connection.commit()

@@ -21,7 +21,7 @@ def main():
         database="WorkoutTrackerDB",
     )
 
-    # mycursor = connection.cursor()
+    # mycursor = connection.cursor(prepared=True)
 
     # mycursor.execute("select * from personal_information")
     # for x in mycursor:
@@ -41,7 +41,7 @@ def main():
         database="WorkoutTrackerDB",
     )
 
-    mycursor = connection.cursor()
+    mycursor = connection.cursor(prepared=True)
 
     # mycursor.execute("select * from personal_information")
     # for x in mycursor:
@@ -52,11 +52,11 @@ def main():
         connection=connection,
         cursor=mycursor,
         person_id=1,
-        date="2022-01-19",
+        date="2022-01-24",
         type="interval",
-        total_time=1278,
-        total_distance=9786,
-        terrain="indoor",
+        total_time=1578,
+        total_distance=2786,
+        terrain="outdoor",
     )
 
     database_operations.closeConnectionToDB(connection=connection)
