@@ -36,14 +36,14 @@ def main():
     ### open connenction as user
     connection = database_operations.openConnectionToDB(
         host="localhost",
-        user="user_2",
-        password="user_2_password",
+        user="user_1",
+        password="user_1_password",
         database="WorkoutTrackerDB",
     )
 
     mycursor = connection.cursor(prepared=True)
 
-    # mycursor.execute("select * from personal_information")
+    # mycursor.execute("select * from running where person_id = 1 and terrain = 'indoor';")
     # for x in mycursor:
     #     print(x)
 
@@ -60,16 +60,18 @@ def main():
     # )
 
     #### add sample record to diet
-    database_operations.addRecordToDietTable(
-        connection=connection,
-        cursor=mycursor,
-        person_id=2,
-        name="2000_calories",
-        start_date="2021-12-13",
-        stop_date="2022-11-14",
-        calories=2000,
-    )
+    # database_operations.addRecordToDietTable(
+    #     connection=connection,
+    #     cursor=mycursor,
+    #     person_id=2,
+    #     name="2000_calories",
+    #     start_date="2021-12-13",
+    #     stop_date="2022-11-14",
+    #     calories=2000,
+    # )
 
+    database_operations.showRecordsFromTableMatchingQuery(cursor=mycursor, person_id=1, table="running", column="terrain", criterion="indoor")
+    
     database_operations.closeConnectionToDB(connection=connection)
 
 
