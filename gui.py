@@ -46,7 +46,7 @@ def registerUserWindow():
                     progress_bar()
                     break
     window.close()
-registerUserWindow()
+# registerUserWindow()
 
 
 def loginUserWindow():
@@ -72,4 +72,4 @@ def loginUserWindow():
                     sg.popup("Invalid loginUserWindow. Try again")
 
     window.close()
-loginUserWindow()
+# loginUserWindow()

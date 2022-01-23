@@ -18,7 +18,9 @@ def openConnectionToDB(host, user, password, database):
             print("Database does not exist")
         else:
             print(err)
-    return connection
+        return "ERROR"
+    else:
+        return connection
 
 
 #### close given connection

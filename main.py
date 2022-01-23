@@ -1,6 +1,7 @@
 #### importing libraries
 import database_operations
-
+import gui
+import PySimpleGUI as sg
 
 #### get root and superUser password from file
 passwordFile = open(
@@ -34,12 +35,12 @@ def main():
     # database_operations.closeConnectionToDB(connection=connection)
 
     ### open connenction as user
-    connection = database_operations.openConnectionToDB(
-        host="localhost",
-        user="user_1",
-        password="user_1_password_1",
-        database="WorkoutTrackerDB",
-    )
+    # connection = database_operations.openConnectionToDB(
+    #     host="localhost",
+    #     user="user_1",
+    #     password="user_1_password",
+    #     database="WorkoutTrackerDB",
+    # )
 
     # mycursor = connection.cursor(prepared=True)
 
@@ -73,9 +74,44 @@ def main():
     # database_operations.showRecordsFromTableMatchingQuery(cursor=mycursor, person_id=1, table="running", column="terrain", criterion="indoor")
     
     # database_operations.closeConnectionToDB(connection=connection)
+    # global username, password
+    # gui.loginUserWindow()
 
+    username = ''
+    password = ''
     
+    # login window + trying to connect to DB + if connection successful then retrieve lobin/password to variables
+    sg.theme("LightBlue2")
+    layout = [[sg.Text("Log In", size =(15, 1), font=40)],
+            [sg.Text("Username", size =(15, 1), font=16),sg.InputText(key='-username-', font=16)],
+            [sg.Text("Password", size =(15, 1), font=16),sg.InputText(key='-password-', password_char='*', font=16)],
+            [sg.Button('Ok'),sg.Button('Cancel')]]
 
+    window = sg.Window("Log In", layout)
+
+    while True:
+        event,values = window.read()
+        if event == "Cancel" or event == sg.WIN_CLOSED:
+            break
+        else:
+            if event == "Ok":
+                connection = database_operations.openConnectionToDB(
+                    host="localhost",
+                    user=values['-username-'],
+                    password=values['-password-'],
+                    database="WorkoutTrackerDB",
+                )
+                if connection == "ERROR":
+                    sg.popup("Invalid credentials. Try again")
+                else:
+                    username = values['-username-']
+                    password = values['-password-']
+                    # sg.popup("Welcome!")
+                    gui.progress_bar()
+                    gui.registerUserWindow()
+                    break
+
+    window.close()
 
 if __name__ == "__main__":
     main()
