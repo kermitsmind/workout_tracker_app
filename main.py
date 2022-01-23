@@ -98,28 +98,7 @@ def main():
         [sg.Button("Ok"), sg.Button("Cancel")],
     ]
 
-    user_logged_layout = [
-        # [sg.Menu(menu_def, key='-MENU-')],
-        [sg.Text("Anything that requires user-input is in this tab!")],
-        [sg.Input(key="-INPUT-")],
-        [
-            sg.Multiline(
-                "Demo of a Multi-Line Text Element!\nLine 2\nLine 3\nLine 4\nLine 5\nLine 6\nLine 7\nYou get the point.",
-                size=(45, 5),
-                expand_x=True,
-                expand_y=True,
-                k="-MLINE-",
-            )
-        ],
-        [
-            sg.Button("Button"),
-            sg.Button("Popup"),
-            sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key="-LOGO-"),
-        ],
-    ]
-
     window_login = sg.Window("Log In", login_layout)
-    # window_1 = sg.Window("Log In", login_layout)
 
     while True:
         event, values = window_login.read()
@@ -150,20 +129,24 @@ def main():
         and username.find("admin") == -1
         and username.find("super") == -1
     ):
+        global column
+        global criterion
+        column, criterion = "", ""
         mycursor = connection.cursor(prepared=True)
         layout_1 = [
             [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
             [sg.Button("Running records")],
+            [sg.Text("Column", size=(8, 1), font=16), sg.InputText(key="-column_1-", font=16), sg.Text("Criterion", size=(7, 1), font=16), sg.InputText(key="-criterion_1-", font=16)],
             [sg.Text("What you print will display below:")],
             # [sg.Output(size=(50, 10), key="-OUTPUT_1-")],
-            [sg.Multiline('', size=(50,10),key="_OP_1_", do_not_clear=True)]
+            [sg.Multiline('', size=(100,10),key="_OP_1_", do_not_clear=True)]
         ]
         layout_2 = [
             [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
             [sg.Button("Diet records")],
             [sg.Text("What you print will display below:")],
             # [sg.Output(size=(50, 10), key="-OUTPUT-")],
-            [sg.Multiline('', size=(50,10),key="_OP_2_", do_not_clear=True)]
+            [sg.Multiline('', size=(100,10),key="_OP_2_", do_not_clear=True)]
         ]
 
         menu_def = [['Application', ['Exit']],
@@ -173,7 +156,7 @@ def main():
             [
                 sg.Text(
                     "App title",
-                    size=(38, 1),
+                    size=(100, 1),
                     justification="center",
                     font=("Helvetica", 16),
                     relief=sg.RELIEF_RIDGE,
@@ -212,10 +195,11 @@ def main():
                         cursor=mycursor,
                         person_id=int(username[5:]),
                         table="running",
-                        column="terrain",
-                        criterion="indoor",
+                        column=values["-column_1-"],
+                        criterion=values["-criterion_1-"],
                     )
                     # print = window.FindElement("_OP_1_").update
+                    window.find_element( "_OP_1_" ).update("")
                     for x in records:
                         window.find_element( "_OP_1_" ).update(("{}\n".format(x)),append=True)
                         print(x)
@@ -230,6 +214,7 @@ def main():
                         criterion="2000_calories",
                     )
                     # print = window.FindElement("_OP_1_").update
+                    window.find_element( "_OP_1_" ).update("")
                     for x in records:
                         window.find_element( "_OP_2_" ).update(("{}\n".format(x)),append=True)
                         print(x)

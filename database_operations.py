@@ -357,16 +357,31 @@ def addRecordToRestTable(
         connection.rollback()
 
 def showRecordsFromTableMatchingQuery(cursor, person_id, table, column, criterion):
-    try:
-        sqlQueryForm = "select * from " + table + " where person_id = %s and " + column + " = %s;"
-        sqlQueryData = (str(person_id), criterion)
-        cursor.execute(sqlQueryForm, sqlQueryData)
-        records = []
-        for x in cursor:
-            records.append(x)
-            print(x)
-        return records
-    except:
-        print("An error while querying occured")
-        pass
-        return []
+    if column == "" and criterion == "":
+        try:
+            sqlQueryForm = "select * from " + table + " where person_id = %s;"
+            sqlQueryData = (str(person_id))
+            cursor.execute(sqlQueryForm, sqlQueryData)
+            records = []
+            for x in cursor:
+                records.append(x)
+                print(x)
+            return records
+        except:
+            print("An error while querying occured")
+            pass
+            return []
+    else:
+        try:
+            sqlQueryForm = "select * from " + table + " where person_id = %s and " + column + " = %s;"
+            sqlQueryData = (str(person_id), criterion)
+            cursor.execute(sqlQueryForm, sqlQueryData)
+            records = []
+            for x in cursor:
+                records.append(x)
+                print(x)
+            return records
+        except:
+            print("An error while querying occured")
+            pass
+            return []
