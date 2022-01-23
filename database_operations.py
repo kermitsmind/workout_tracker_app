@@ -361,8 +361,12 @@ def showRecordsFromTableMatchingQuery(cursor, person_id, table, column, criterio
         sqlQueryForm = "select * from " + table + " where person_id = %s and " + column + " = %s;"
         sqlQueryData = (str(person_id), criterion)
         cursor.execute(sqlQueryForm, sqlQueryData)
+        records = []
         for x in cursor:
+            records.append(x)
             print(x)
+        return records
     except:
         print("An error while querying occured")
         pass
+        return []

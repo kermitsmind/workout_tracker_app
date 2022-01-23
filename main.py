@@ -2,6 +2,7 @@
 import database_operations
 import gui
 import PySimpleGUI as sg
+import time
 
 #### get root and superUser password from file
 passwordFile = open(
@@ -72,46 +73,174 @@ def main():
     # )
 
     # database_operations.showRecordsFromTableMatchingQuery(cursor=mycursor, person_id=1, table="running", column="terrain", criterion="indoor")
-    
+
     # database_operations.closeConnectionToDB(connection=connection)
     # global username, password
     # gui.loginUserWindow()
 
-    username = ''
-    password = ''
-    
+    username = ""
+    password = ""
+    global connection
+    isUserLogged = "USER_NOT_LOGGED"
+
     # login window + trying to connect to DB + if connection successful then retrieve lobin/password to variables
     sg.theme("LightBlue2")
-    layout = [[sg.Text("Log In", size =(15, 1), font=40)],
-            [sg.Text("Username", size =(15, 1), font=16),sg.InputText(key='-username-', font=16)],
-            [sg.Text("Password", size =(15, 1), font=16),sg.InputText(key='-password-', password_char='*', font=16)],
-            [sg.Button('Ok'),sg.Button('Cancel')]]
+    login_layout = [
+        [sg.Text("Log In", size=(15, 1), font=40)],
+        [
+            sg.Text("Username", size=(15, 1), font=16),
+            sg.InputText(key="-username-", font=16),
+        ],
+        [
+            sg.Text("Password", size=(15, 1), font=16),
+            sg.InputText(key="-password-", password_char="*", font=16),
+        ],
+        [sg.Button("Ok"), sg.Button("Cancel")],
+    ]
 
-    window = sg.Window("Log In", layout)
+    user_logged_layout = [
+        # [sg.Menu(menu_def, key='-MENU-')],
+        [sg.Text("Anything that requires user-input is in this tab!")],
+        [sg.Input(key="-INPUT-")],
+        [
+            sg.Multiline(
+                "Demo of a Multi-Line Text Element!\nLine 2\nLine 3\nLine 4\nLine 5\nLine 6\nLine 7\nYou get the point.",
+                size=(45, 5),
+                expand_x=True,
+                expand_y=True,
+                k="-MLINE-",
+            )
+        ],
+        [
+            sg.Button("Button"),
+            sg.Button("Popup"),
+            sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key="-LOGO-"),
+        ],
+    ]
+
+    window_login = sg.Window("Log In", login_layout)
+    # window_1 = sg.Window("Log In", login_layout)
 
     while True:
-        event,values = window.read()
+        event, values = window_login.read()
         if event == "Cancel" or event == sg.WIN_CLOSED:
             break
         else:
             if event == "Ok":
                 connection = database_operations.openConnectionToDB(
                     host="localhost",
-                    user=values['-username-'],
-                    password=values['-password-'],
+                    user=values["-username-"],
+                    password=values["-password-"],
                     database="WorkoutTrackerDB",
                 )
                 if connection == "ERROR":
                     sg.popup("Invalid credentials. Try again")
                 else:
-                    username = values['-username-']
-                    password = values['-password-']
+                    username = values["-username-"]
+                    password = values["-password-"]
                     # sg.popup("Welcome!")
                     gui.progress_bar()
-                    gui.registerUserWindow()
+                    isUserLogged = "USER_LOGGED"
                     break
 
-    window.close()
+    window_login.close()
+
+    if (
+        isUserLogged == "USER_LOGGED"
+        and username.find("admin") == -1
+        and username.find("super") == -1
+    ):
+        mycursor = connection.cursor(prepared=True)
+        layout_1 = [
+            [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+            [sg.Button("Running records")],
+            [sg.Text("What you print will display below:")],
+            # [sg.Output(size=(50, 10), key="-OUTPUT_1-")],
+            [sg.Multiline('', size=(50,10),key="_OP_1_", do_not_clear=True)]
+        ]
+        layout_2 = [
+            [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+            [sg.Button("Diet records")],
+            [sg.Text("What you print will display below:")],
+            # [sg.Output(size=(50, 10), key="-OUTPUT-")],
+            [sg.Multiline('', size=(50,10),key="_OP_2_", do_not_clear=True)]
+        ]
+
+        menu_def = [['Application', ['Exit']],
+                ['Help', ['About']] ]
+        layout = [
+            [sg.MenubarCustom(menu_def, key="-MENU-", font="Courier 15", tearoff=True)],
+            [
+                sg.Text(
+                    "App title",
+                    size=(38, 1),
+                    justification="center",
+                    font=("Helvetica", 16),
+                    relief=sg.RELIEF_RIDGE,
+                    k="-TEXT HEADING-",
+                    enable_events=True,
+                )
+            ],
+        ]
+        layout += [
+            [
+                sg.TabGroup(
+                    [
+                        [
+                            sg.Tab("Running", layout_1),
+                            sg.Tab("Diet", layout_2),
+                        ]
+                    ],
+                    key="-TAB GROUP-",
+                    expand_x=True,
+                    expand_y=True,
+                ),
+            ]
+        ]
+
+        window = sg.Window("User account", layout)
+        while True:
+            event, values = window.read()
+            if event in (None, 'Exit') or event == sg.WIN_CLOSED:
+                break
+            elif event in (None, 'About'):
+                sg.popup('Help',
+                     'page', keep_on_top=True)
+            else:
+                if event == "Running records":
+                    records = database_operations.showRecordsFromTableMatchingQuery(
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="running",
+                        column="terrain",
+                        criterion="indoor",
+                    )
+                    # print = window.FindElement("_OP_1_").update
+                    for x in records:
+                        window.find_element( "_OP_1_" ).update(("{}\n".format(x)),append=True)
+                        print(x)
+                        # time.sleep(1)
+                    pass
+                if event == "Diet records":
+                    records = database_operations.showRecordsFromTableMatchingQuery(
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="diet",
+                        column="name",
+                        criterion="2000_calories",
+                    )
+                    # print = window.FindElement("_OP_1_").update
+                    for x in records:
+                        window.find_element( "_OP_2_" ).update(("{}\n".format(x)),append=True)
+                        print(x)
+                        # time.sleep(1)
+                    pass
+        window.close()
+
 
 if __name__ == "__main__":
     main()
+
+
+# ref:
+# https://stackoverflow.com/questions/64398194/pysimplegui-login-authenticator
