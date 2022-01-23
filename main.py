@@ -100,6 +100,7 @@ def main():
 
     window_login = sg.Window("Log In", login_layout)
 
+    #### log in
     while True:
         event, values = window_login.read()
         if event == "Cancel" or event == sg.WIN_CLOSED:
@@ -124,6 +125,7 @@ def main():
 
     window_login.close()
 
+    #### user is logged
     if (
         isUserLogged == "USER_LOGGED"
         and username.find("admin") == -1
@@ -133,19 +135,27 @@ def main():
         global criterion
         column, criterion = "", ""
         mycursor = connection.cursor(prepared=True)
-        layout_1 = [
+        layout_running_show = [
             [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
-            [sg.Button("Running records")],
-            [sg.Text("Column", size=(8, 1), font=16), sg.InputText(key="-column_1-", font=16), sg.Text("Criterion", size=(7, 1), font=16), sg.InputText(key="-criterion_1-", font=16)],
+            [sg.Button("Show running records")],
+            [sg.Text("Column", size=(8, 1), font=16), sg.InputText(key="-column_running_show-", size=(10, 1), font=16), sg.Text("Criterion", size=(8, 1), font=16), sg.InputText(key="-criterion_running_show-", size=(10, 1), font=16)],
             [sg.Text("What you print will display below:")],
-            # [sg.Output(size=(50, 10), key="-OUTPUT_1-")],
             [sg.Multiline('', size=(100,10),key="_OP_1_", do_not_clear=True)]
         ]
-        layout_2 = [
+
+        layout_running_add = [
             [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
-            [sg.Button("Diet records")],
+            [sg.Text("Date", size=(8, 1), font=16), sg.InputText(key="-column_running_add_date-", size=(10, 1), font=16),
+            sg.Text("Type", size=(8, 1), font=16), sg.InputText(key="-column_running_add_type-", size=(10, 1), font=16),
+            sg.Text("Time", size=(8, 1), font=16), sg.InputText(key="-column_running_add_time-", size=(10, 1), font=16),
+            sg.Text("Distance", size=(8, 1), font=16), sg.InputText(key="-column_running_add_distance-", size=(10, 1), font=16),
+            sg.Text("Terrain", size=(8, 1), font=16), sg.InputText(key="-column_running_add_terrain-", size=(10, 1), font=16)],
+            [sg.Button("Add running record")]
+        ]
+        diet_show = [
+            [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+            [sg.Button("Show diet records")],
             [sg.Text("What you print will display below:")],
-            # [sg.Output(size=(50, 10), key="-OUTPUT-")],
             [sg.Multiline('', size=(100,10),key="_OP_2_", do_not_clear=True)]
         ]
 
@@ -170,8 +180,9 @@ def main():
                 sg.TabGroup(
                     [
                         [
-                            sg.Tab("Running", layout_1),
-                            sg.Tab("Diet", layout_2),
+                            sg.Tab("Running - show", layout_running_show),
+                            sg.Tab("Running - add", layout_running_add),
+                            sg.Tab("Diet - show", diet_show),
                         ]
                     ],
                     key="-TAB GROUP-",
@@ -190,13 +201,13 @@ def main():
                 sg.popup('Help',
                      'page', keep_on_top=True)
             else:
-                if event == "Running records":
+                if event == "Show running records":
                     records = database_operations.showRecordsFromTableMatchingQuery(
                         cursor=mycursor,
                         person_id=int(username[5:]),
                         table="running",
-                        column=values["-column_1-"],
-                        criterion=values["-criterion_1-"],
+                        column=values["-column_running_show-"],
+                        criterion=values["-criterion_running_show-"],
                     )
                     # print = window.FindElement("_OP_1_").update
                     window.find_element( "_OP_1_" ).update("")
@@ -205,7 +216,20 @@ def main():
                         print(x)
                         # time.sleep(1)
                     pass
-                if event == "Diet records":
+
+                if event == "Add running record":
+                    database_operations.addRecordToRunningTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        date=values["-column_running_add_date-"],
+                        type=values["-column_running_add_type-"],
+                        total_time=values["-column_running_add_time-"],
+                        total_distance=values["-column_running_add_distance-"],
+                        terrain=values["-column_running_add_terrain-"]
+                    )
+
+                if event == "Show diet records":
                     records = database_operations.showRecordsFromTableMatchingQuery(
                         cursor=mycursor,
                         person_id=int(username[5:]),
