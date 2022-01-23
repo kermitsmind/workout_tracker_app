@@ -37,11 +37,11 @@ def main():
     connection = database_operations.openConnectionToDB(
         host="localhost",
         user="user_1",
-        password="user_1_password",
+        password="user_1_password_1",
         database="WorkoutTrackerDB",
     )
 
-    mycursor = connection.cursor(prepared=True)
+    # mycursor = connection.cursor(prepared=True)
 
     # mycursor.execute("select * from running where person_id = 1 and terrain = 'indoor';")
     # for x in mycursor:
@@ -70,9 +70,11 @@ def main():
     #     calories=2000,
     # )
 
-    database_operations.showRecordsFromTableMatchingQuery(cursor=mycursor, person_id=1, table="running", column="terrain", criterion="indoor")
+    # database_operations.showRecordsFromTableMatchingQuery(cursor=mycursor, person_id=1, table="running", column="terrain", criterion="indoor")
     
-    database_operations.closeConnectionToDB(connection=connection)
+    # database_operations.closeConnectionToDB(connection=connection)
+
+    
 
 
 if __name__ == "__main__":
