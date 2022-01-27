@@ -19,7 +19,7 @@ select * from personal_information;
 select * from running;
 
 update running 
-	set `type` = "sprint"
+	set `type` = "interval"
     where person_id = 1 and running_id = 3;
 
 

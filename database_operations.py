@@ -261,10 +261,14 @@ def createUser(
         "grant alter on WorkoutTrackerDB.* to 'user_" + str(userId) + "'@'localhost';"
     )
 
-    # mycursor.execute(user_1)
+    mycursor.execute(user_1)
     mycursor.execute(user_2)
     mycursor.execute(user_3)
     mycursor.execute(user_4)
+
+    userName = "user_" + str(userId)
+
+    return userName
 
 
 def addRecordToRunningTable(

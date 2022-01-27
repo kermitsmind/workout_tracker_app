@@ -4,7 +4,7 @@ import PySimpleGUI as sg
 username = ''
 password = ''
 #PROGRESS BAR
-def progress_bar():
+def progress_bar_register():
     sg.theme('LightBlue2')
     layout = [[sg.Text('Creating your account...')],
             [sg.ProgressBar(100, orientation='h', size=(20, 20), key='progbar')],
@@ -12,6 +12,20 @@ def progress_bar():
 
     window = sg.Window('Working...', layout)
     for i in range(100):
+        event, values = window.read(timeout=1)
+        if event == 'Cancel' or event == sg.WIN_CLOSED:
+            break
+        window['progbar'].update_bar(i + 1)
+    window.close()
+
+def progress_bar_login():
+    sg.theme('LightBlue2')
+    layout = [[sg.Text('Logging into your account...')],
+            [sg.ProgressBar(40, orientation='h', size=(20, 20), key='progbar')],
+            [sg.Cancel()]]
+
+    window = sg.Window('Working...', layout)
+    for i in range(40):
         event, values = window.read(timeout=1)
         if event == 'Cancel' or event == sg.WIN_CLOSED:
             break

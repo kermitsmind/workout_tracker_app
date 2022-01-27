@@ -95,34 +95,69 @@ def main():
             sg.Text("Password", size=(15, 1), font=16),
             sg.InputText(key="-password-", password_char="*", font=16),
         ],
-        [sg.Button("Ok"), sg.Button("Cancel")],
+        [sg.Button("Login"), sg.Button("Cancel"), sg.Button("Register")],
     ]
+
+    register_layout = [[sg.Text("Sign Up", size =(15, 1), font=40, justification='c')],
+             [sg.Text("First name", size =(15, 1),font=16), sg.InputText(key='-register_first_name-', font=16)],
+             [sg.Text("Last name", size =(15, 1),font=16), sg.InputText(key='-register_last_name-', font=16)],
+             [sg.Text("Birth date", size =(15, 1),font=16), sg.InputText(key='-register_birth_date-', font=16)],
+             [sg.Text("Phone number", size =(15, 1),font=16), sg.InputText(key='-register_phone_number-', font=16)],
+             [sg.Text("Nationality", size =(15, 1),font=16), sg.InputText(key='-register_nationality-', font=16)],
+             [sg.Text("Registration date", size =(15, 1),font=16), sg.InputText(key='-register_registration_date-', font=16)],
+             [sg.Text("Password", size =(15, 1), font=16), sg.InputText(key='-register_password-', font=16, password_char='*')],
+             [sg.Button("Submit"), sg.Button("Cancel")]]
 
     window_login = sg.Window("Log In", login_layout)
 
     #### log in
     while True:
-        event, values = window_login.read()
-        if event == "Cancel" or event == sg.WIN_CLOSED:
+        event_login, values_login = window_login.read()
+        if event_login == "Cancel" or event_login == sg.WIN_CLOSED:
             break
         else:
-            if event == "Ok":
+            if event_login == "Login":
                 connection = database_operations.openConnectionToDB(
                     host="localhost",
-                    user=values["-username-"],
-                    password=values["-password-"],
+                    user=values_login["-username-"],
+                    password=values_login["-password-"],
                     database="WorkoutTrackerDB",
                 )
                 if connection == "ERROR":
                     sg.popup("Invalid credentials. Try again")
                 else:
-                    username = values["-username-"]
-                    password = values["-password-"]
+                    username = values_login["-username-"]
+                    password = values_login["-password-"]
                     # sg.popup("Welcome!")
-                    gui.progress_bar()
+                    gui.progress_bar_login()
                     isUserLogged = "USER_LOGGED"
                     break
 
+            if event_login == "Register":
+                window_register = sg.Window("Sign Up", register_layout)
+                while True:
+                    event_register,values_register = window_register.read()
+                    if event_register == 'Cancel' or event_register == sg.WIN_CLOSED:
+                        break
+                    else:
+                        if event_register == "Submit":
+                            first_name = values_register['-register_first_name-']
+                            last_name = values_register['-register_last_name-']
+                            birth_date = values_register['-register_birth_date-']
+                            phone_number = values_register['-register_phone_number-']
+                            nationality = values_register['-register_nationality-']
+                            registration_date = values_register['-register_registration_date-']
+                            user_password = values_register['-register_password-']
+                            
+                            userName = database_operations.createUser(firstName=first_name, lastName=last_name, birthDate=birth_date, 
+                            phoneNumber=phone_number, nationality=nationality, registrationDate=registration_date, 
+                            userPassword=user_password, rootPassword=rootPassword)
+                            
+                            message = "Your username: " + userName
+                            sg.popup(message)
+                            gui.progress_bar_register()
+                            break
+                window_register.close()
     window_login.close()
 
     #### user is logged
