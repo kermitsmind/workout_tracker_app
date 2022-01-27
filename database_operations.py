@@ -385,3 +385,20 @@ def showRecordsFromTableMatchingQuery(cursor, person_id, table, column, criterio
             print("An error while querying occured")
             pass
             return []
+
+
+def deleteRecordFromAnyTable(
+    connection, cursor, person_id, table, recordId
+):
+    sqlQueryForm = "delete from " + table + " where person_id = %s and " + table + "_id = %s"
+    sqlQueryData = (
+        person_id,
+        recordId
+    )
+
+    try:
+        connection.autocommit = False
+        cursor.execute(sqlQueryForm, sqlQueryData)
+        connection.commit()
+    except:
+        connection.rollback()

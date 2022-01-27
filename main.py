@@ -152,6 +152,13 @@ def main():
             sg.Text("Terrain", size=(8, 1), font=16), sg.InputText(key="-column_running_add_terrain-", size=(10, 1), font=16)],
             [sg.Button("Add running record")]
         ]
+
+        layout_running_delete = [
+            [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+            [sg.Text("Running ID", size=(8, 1), font=16), sg.InputText(key="-column_running_delete_runningId-", size=(10, 1), font=16)],
+            [sg.Button("Delete running record")]
+        ]
+
         diet_show = [
             [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
             [sg.Button("Show diet records")],
@@ -182,6 +189,7 @@ def main():
                         [
                             sg.Tab("Running - show", layout_running_show),
                             sg.Tab("Running - add", layout_running_add),
+                            sg.Tab("Running - delete", layout_running_delete),
                             sg.Tab("Diet - show", diet_show),
                         ]
                     ],
@@ -227,6 +235,15 @@ def main():
                         total_time=values["-column_running_add_time-"],
                         total_distance=values["-column_running_add_distance-"],
                         terrain=values["-column_running_add_terrain-"]
+                    )
+
+                if event == "Delete running record":
+                    database_operations.deleteRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="running",
+                        recordId=values["-column_running_delete_runningId-"]
                     )
 
                 if event == "Show diet records":
