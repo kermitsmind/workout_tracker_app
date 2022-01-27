@@ -98,15 +98,38 @@ def main():
         [sg.Button("Login"), sg.Button("Cancel"), sg.Button("Register")],
     ]
 
-    register_layout = [[sg.Text("Sign Up", size =(15, 1), font=40, justification='c')],
-             [sg.Text("First name", size =(15, 1),font=16), sg.InputText(key='-register_first_name-', font=16)],
-             [sg.Text("Last name", size =(15, 1),font=16), sg.InputText(key='-register_last_name-', font=16)],
-             [sg.Text("Birth date", size =(15, 1),font=16), sg.InputText(key='-register_birth_date-', font=16)],
-             [sg.Text("Phone number", size =(15, 1),font=16), sg.InputText(key='-register_phone_number-', font=16)],
-             [sg.Text("Nationality", size =(15, 1),font=16), sg.InputText(key='-register_nationality-', font=16)],
-             [sg.Text("Registration date", size =(15, 1),font=16), sg.InputText(key='-register_registration_date-', font=16)],
-             [sg.Text("Password", size =(15, 1), font=16), sg.InputText(key='-register_password-', font=16, password_char='*')],
-             [sg.Button("Submit"), sg.Button("Cancel")]]
+    register_layout = [
+        [sg.Text("Sign Up", size=(15, 1), font=40, justification="c")],
+        [
+            sg.Text("First name", size=(15, 1), font=16),
+            sg.InputText(key="-register_first_name-", font=16),
+        ],
+        [
+            sg.Text("Last name", size=(15, 1), font=16),
+            sg.InputText(key="-register_last_name-", font=16),
+        ],
+        [
+            sg.Text("Birth date", size=(15, 1), font=16),
+            sg.InputText(key="-register_birth_date-", font=16),
+        ],
+        [
+            sg.Text("Phone number", size=(15, 1), font=16),
+            sg.InputText(key="-register_phone_number-", font=16),
+        ],
+        [
+            sg.Text("Nationality", size=(15, 1), font=16),
+            sg.InputText(key="-register_nationality-", font=16),
+        ],
+        [
+            sg.Text("Registration date", size=(15, 1), font=16),
+            sg.InputText(key="-register_registration_date-", font=16),
+        ],
+        [
+            sg.Text("Password", size=(15, 1), font=16),
+            sg.InputText(key="-register_password-", font=16, password_char="*"),
+        ],
+        [sg.Button("Submit"), sg.Button("Cancel")],
+    ]
 
     window_login = sg.Window("Log In", login_layout)
 
@@ -136,23 +159,32 @@ def main():
             if event_login == "Register":
                 window_register = sg.Window("Sign Up", register_layout)
                 while True:
-                    event_register,values_register = window_register.read()
-                    if event_register == 'Cancel' or event_register == sg.WIN_CLOSED:
+                    event_register, values_register = window_register.read()
+                    if event_register == "Cancel" or event_register == sg.WIN_CLOSED:
                         break
                     else:
                         if event_register == "Submit":
-                            first_name = values_register['-register_first_name-']
-                            last_name = values_register['-register_last_name-']
-                            birth_date = values_register['-register_birth_date-']
-                            phone_number = values_register['-register_phone_number-']
-                            nationality = values_register['-register_nationality-']
-                            registration_date = values_register['-register_registration_date-']
-                            user_password = values_register['-register_password-']
-                            
-                            userName = database_operations.createUser(firstName=first_name, lastName=last_name, birthDate=birth_date, 
-                            phoneNumber=phone_number, nationality=nationality, registrationDate=registration_date, 
-                            userPassword=user_password, rootPassword=rootPassword)
-                            
+                            first_name = values_register["-register_first_name-"]
+                            last_name = values_register["-register_last_name-"]
+                            birth_date = values_register["-register_birth_date-"]
+                            phone_number = values_register["-register_phone_number-"]
+                            nationality = values_register["-register_nationality-"]
+                            registration_date = values_register[
+                                "-register_registration_date-"
+                            ]
+                            user_password = values_register["-register_password-"]
+
+                            userName = database_operations.createUser(
+                                firstName=first_name,
+                                lastName=last_name,
+                                birthDate=birth_date,
+                                phoneNumber=phone_number,
+                                nationality=nationality,
+                                registrationDate=registration_date,
+                                userPassword=user_password,
+                                rootPassword=rootPassword,
+                            )
+
                             message = "Your username: " + userName
                             sg.popup(message)
                             gui.progress_bar_register()
