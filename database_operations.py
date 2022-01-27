@@ -3,6 +3,7 @@ from __future__ import print_function
 import mysql.connector
 from mysql.connector import errorcode
 import os
+import sys
 
 
 #### open connection with given credentials and return the connection object
@@ -356,11 +357,12 @@ def addRecordToRestTable(
     except:
         connection.rollback()
 
+
 def showRecordsFromTableMatchingQuery(cursor, person_id, table, column, criterion):
     if column == "" and criterion == "":
         try:
             sqlQueryForm = "select * from " + table + " where person_id = %s;"
-            sqlQueryData = (str(person_id))
+            sqlQueryData = str(person_id)
             cursor.execute(sqlQueryForm, sqlQueryData)
             records = []
             for x in cursor:
@@ -373,7 +375,13 @@ def showRecordsFromTableMatchingQuery(cursor, person_id, table, column, criterio
             return []
     else:
         try:
-            sqlQueryForm = "select * from " + table + " where person_id = %s and " + column + " = %s;"
+            sqlQueryForm = (
+                "select * from "
+                + table
+                + " where person_id = %s and "
+                + column
+                + " = %s;"
+            )
             sqlQueryData = (str(person_id), criterion)
             cursor.execute(sqlQueryForm, sqlQueryData)
             records = []
@@ -387,14 +395,11 @@ def showRecordsFromTableMatchingQuery(cursor, person_id, table, column, criterio
             return []
 
 
-def deleteRecordFromAnyTable(
-    connection, cursor, person_id, table, recordId
-):
-    sqlQueryForm = "delete from " + table + " where person_id = %s and " + table + "_id = %s"
-    sqlQueryData = (
-        person_id,
-        recordId
+def deleteRecordFromAnyTable(connection, cursor, person_id, table, recordId):
+    sqlQueryForm = (
+        "delete from " + table + " where person_id = %s and " + table + "_id = %s;"
     )
+    sqlQueryData = (person_id, recordId)
 
     try:
         connection.autocommit = False
@@ -402,3 +407,27 @@ def deleteRecordFromAnyTable(
         connection.commit()
     except:
         connection.rollback()
+
+
+def modifyRecordFromAnyTable(
+    connection, cursor, person_id, table, recordId, column, value
+):
+    sqlQueryForm = (
+        "update "
+        + table
+        + " set `"
+        + column
+        + '` = "'
+        + value
+        + '" where person_id = %s and running_id = %s;'
+    )
+    sqlQueryData = (person_id, recordId)
+
+    try:
+        print(sqlQueryForm)
+        connection.autocommit = False
+        cursor.execute(sqlQueryForm, sqlQueryData)
+        connection.commit()
+    except:
+        connection.rollback()
+        print("ERROR: ", sys.exc_info()[0])
