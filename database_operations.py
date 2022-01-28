@@ -434,7 +434,9 @@ def modifyRecordFromAnyTable(
         + column
         + '` = "'
         + value
-        + '" where person_id = %s and running_id = %s;'
+        + '" where person_id = %s and '
+        + table
+        + "_id = %s;"
     )
     sqlQueryData = (person_id, recordId)
 

@@ -227,12 +227,63 @@ layout_running_modify = [
     [sg.Button("Modify running record")],
 ]
 
-diet_show = [
+
+layout_diet_main = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")]
+]
+
+layout_diet_show = [
     [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
     [sg.Button("Show diet records")],
+    [
+        sg.Text("Column", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_show-", size=(10, 1), font=16),
+        sg.Text("Criterion", size=(8, 1), font=16),
+        sg.InputText(key="-criterion_diet_show-", size=(10, 1), font=16),
+    ],
     [sg.Text("What you print will display below:")],
     [sg.Multiline("", size=(100, 10), key="_OP_2_", do_not_clear=True)],
 ]
+
+layout_diet_add = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("Date", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_add_date-", size=(10, 1), font=16),
+        sg.Text("Name", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_add_name-", size=(10, 1), font=16),
+        sg.Text("Start date", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_add_start_date-", size=(10, 1), font=16),
+        sg.Text("Stop date", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_add_stop_date-", size=(10, 1), font=16),
+        sg.Text("Calories", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_add_calories-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Add diet record")],
+]
+
+layout_diet_delete = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("diet ID", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_delete_dietId-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Delete diet record")],
+]
+
+layout_diet_modify = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("diet ID", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_modify_dietId-", size=(10, 1), font=16),
+        sg.Text("Column", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_modify_column-", size=(10, 1), font=16),
+        sg.Text("Value", size=(8, 1), font=16),
+        sg.InputText(key="-column_diet_modify_value-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Modify diet record")],
+]
+
 
 backup = [
     [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
@@ -277,7 +328,11 @@ user_layout += [
                     sg.Tab("add", layout_running_add),
                     sg.Tab("delete", layout_running_delete),
                     sg.Tab("modify", layout_running_modify),
-                    sg.Tab("Diet - show", diet_show),
+                    sg.Tab("DIET", layout_diet_main),
+                    sg.Tab("show", layout_diet_show),
+                    sg.Tab("add", layout_diet_add),
+                    sg.Tab("delete", layout_diet_delete),
+                    sg.Tab("modify", layout_diet_modify),
                 ]
             ],
             key="-TAB GROUP-",
@@ -306,11 +361,6 @@ super_user_layout_normal += [
         sg.TabGroup(
             [
                 [
-                    # sg.Tab("RUNNING", layout_running_main),
-                    # sg.Tab("show", layout_running_show),
-                    # sg.Tab("add", layout_running_add),
-                    # sg.Tab("delete", layout_running_delete),
-                    # sg.Tab("modify", layout_running_modify),
                     sg.Tab("BACKUP", backup),
                 ]
             ],

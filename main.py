@@ -245,11 +245,11 @@ def main():
                         cursor=mycursor,
                         person_id=int(username[5:]),
                         table="diet",
-                        column="name",
-                        criterion="2000_calories",
+                        column=values["-column_diet_show-"],
+                        criterion=values["-criterion_diet_show-"],
                     )
                     # print = window.FindElement("_OP_1_").update
-                    window.find_element("_OP_1_").update("")
+                    window.find_element("_OP_2_").update("")
                     for x in records:
                         window.find_element("_OP_2_").update(
                             ("{}\n".format(x)), append=True
@@ -257,6 +257,45 @@ def main():
                         print(x)
                         # time.sleep(1)
                     pass
+
+                if event == "Add diet record":
+                    database_operations.addRecordToDietTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        name=values["-column_diet_add_name-"],
+                        start_date=values["-column_diet_add_start_date-"],
+                        stop_date=values["-column_diet_add_stop_date-"],
+                        calories=values["-column_diet_add_calories-"],
+                    )
+
+                if event == "Delete diet record":
+                    database_operations.deleteRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="diet",
+                        recordId=values["-column_diet_delete_dietId-"],
+                    )
+
+                if event == "Modify diet record":
+                    database_operations.modifyRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="diet",
+                        column=values["-column_diet_modify_column-"],
+                        value=values["-column_diet_modify_value-"],
+                        recordId=values["-column_diet_modify_dietId-"],
+                    )
+                    print(
+                        "column: ",
+                        values["-column_diet_modify_column-"],
+                        "value: ",
+                        values["-column_diet_modify_value-"],
+                        "dietId: ",
+                        values["-column_diet_modify_dietId-"],
+                    )
         window.close()
 
     if isUserLogged == "USER_LOGGED" and username.find("super") == 0:
