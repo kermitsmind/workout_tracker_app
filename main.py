@@ -17,69 +17,6 @@ superUserPassword = passwordFile_2.readline()[:-1]
 
 
 def main():
-
-    # #### open connenction as super user
-    # connection = database_operations.openConnectionToDB(
-    #     host="localhost",
-    #     user="super_user",
-    #     password=superUserPassword,
-    #     database="WorkoutTrackerDB",
-    # )
-
-    # mycursor = connection.cursor(prepared=True)
-
-    # mycursor.execute("select * from personal_information")
-    # for x in mycursor:
-    #     print(x)
-
-    # ### add sample user
-    # database_operations.createUser(firstName="Adam", lastName="Smith", birthDate="1998-03-12", phoneNumber=123456789, nationality="Polish", registrationDate="2011-12-12", userPassword="user_1_password", rootPassword=rootPassword)
-    # database_operations.createUser(firstName="John", lastName="Wynn", birthDate="1997-09-11", phoneNumber=123456789, nationality="Polish", registrationDate="2011-12-12", userPassword="user_2_password", rootPassword=rootPassword)
-
-    # database_operations.closeConnectionToDB(connection=connection)
-
-    ### open connenction as user
-    # connection = database_operations.openConnectionToDB(
-    #     host="localhost",
-    #     user="user_1",
-    #     password="user_1_password",
-    #     database="WorkoutTrackerDB",
-    # )
-
-    # mycursor = connection.cursor(prepared=True)
-
-    # mycursor.execute("select * from running where person_id = 1 and terrain = 'indoor';")
-    # for x in mycursor:
-    #     print(x)
-
-    #### add sample record to running
-    # database_operations.addRecordToRunningTable(
-    #     connection=connection,
-    #     cursor=mycursor,
-    #     person_id=2,
-    #     date="2021-12-14",
-    #     type="interval",
-    #     total_time=1789,
-    #     total_distance=1786,
-    #     terrain="outdoor",
-    # )
-
-    #### add sample record to diet
-    # database_operations.addRecordToDietTable(
-    #     connection=connection,
-    #     cursor=mycursor,
-    #     person_id=2,
-    #     name="2000_calories",
-    #     start_date="2021-12-13",
-    #     stop_date="2022-11-14",
-    #     calories=2000,
-    # )
-
-    # database_operations.showRecordsFromTableMatchingQuery(cursor=mycursor, person_id=1, table="running", column="terrain", criterion="indoor")
-
-    # database_operations.closeConnectionToDB(connection=connection)
-    # global username, password
-    # gui.loginUserWindow()
     global username
     global password
     username = ""
@@ -124,43 +61,51 @@ def main():
                     sg.popup("Error occured. Try again")
 
             if event_login == "Register":
-                window_register = sg.Window("Sign Up", gui.register_layout)
-                while True:
-                    event_register, values_register = window_register.read()
-                    if event_register == "Cancel" or event_register == sg.WIN_CLOSED:
-                        break
-                    else:
-                        if event_register == "Submit":
-                            first_name = values_register["-register_first_name-"]
-                            last_name = values_register["-register_last_name-"]
-                            birth_date = values_register["-register_birth_date-"]
-                            phone_number = values_register["-register_phone_number-"]
-                            nationality = values_register["-register_nationality-"]
-                            registration_date = values_register[
-                                "-register_registration_date-"
-                            ]
-                            user_password = values_register["-register_password-"]
+                try:
+                    window_register = sg.Window("Sign Up", gui.register_layout)
+                    while True:
+                        event_register, values_register = window_register.read()
+                        if (
+                            event_register == "Cancel"
+                            or event_register == sg.WIN_CLOSED
+                        ):
+                            break
+                        else:
+                            if event_register == "Submit":
+                                first_name = values_register["-register_first_name-"]
+                                last_name = values_register["-register_last_name-"]
+                                birth_date = values_register["-register_birth_date-"]
+                                phone_number = values_register[
+                                    "-register_phone_number-"
+                                ]
+                                nationality = values_register["-register_nationality-"]
+                                registration_date = values_register[
+                                    "-register_registration_date-"
+                                ]
+                                user_password = values_register["-register_password-"]
 
-                            userName = database_operations.createUser(
-                                firstName=first_name,
-                                lastName=last_name,
-                                birthDate=birth_date,
-                                phoneNumber=phone_number,
-                                nationality=nationality,
-                                registrationDate=registration_date,
-                                userPassword=user_password,
-                                rootPassword=rootPassword,
-                            )
+                                userName = database_operations.createUser(
+                                    firstName=first_name,
+                                    lastName=last_name,
+                                    birthDate=birth_date,
+                                    phoneNumber=phone_number,
+                                    nationality=nationality,
+                                    registrationDate=registration_date,
+                                    userPassword=user_password,
+                                    rootPassword=rootPassword,
+                                )
 
-                            if userName == "ERROR":
-                                sg.popup("Error occured. Try again")
-                                break
-                            else:
-                                message = "Your username: " + userName
-                                sg.popup(message)
-                                gui.progress_bar_register()
-                                break
-                window_register.close()
+                                if userName == "ERROR":
+                                    sg.popup("Error occured. Try again")
+                                    break
+                                else:
+                                    message = "Your username: " + userName
+                                    sg.popup(message)
+                                    gui.progress_bar_register()
+                                    break
+                    window_register.close()
+                except:
+                    pass
     window_login.close()
 
     #### user is logged

@@ -34,5 +34,8 @@ grant all privileges on WorkoutTrackerDB.* to 'super_user'@'localhost';
 grant alter on WorkoutTrackerDB.* to 'super_user'@'localhost';	
 
 
+select * from weight_lifting;
+
+
 
 
