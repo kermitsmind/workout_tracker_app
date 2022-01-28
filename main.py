@@ -166,15 +166,20 @@ def main():
     #### user is logged
     global column
     global criterion
+    global person_id
     if (
         isUserLogged == "USER_LOGGED"
-        and username.find("admin") == -1
         and username.find("super") == -1
     ):
         column, criterion = "", ""
         mycursor = connection.cursor(prepared=True)
 
-        window = sg.Window("User account", gui.user_layout)
+        if username.find("admin") == -1:
+            window = sg.Window("User account", gui.user_layout)
+            person_id=int(username[5:])
+        else:
+            window = sg.Window("User account", gui.admin_user_layout)
+
         while True:
             event, values = window.read()
             if event in (None, "Exit") or event == sg.WIN_CLOSED:
@@ -182,10 +187,13 @@ def main():
             elif event in (None, "About"):
                 sg.popup("Help", "page", keep_on_top=True)
             else:
+                if event == "Select user":
+                    person_id=values["-userID-"]
+
                 if event == "Show running records":
                     records = database_operations.showRecordsFromTableMatchingQuery(
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="running",
                         column=values["-column_running_show-"],
                         criterion=values["-criterion_running_show-"],
@@ -204,7 +212,7 @@ def main():
                     database_operations.addRecordToRunningTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         date=values["-column_running_add_date-"],
                         type=values["-column_running_add_type-"],
                         total_time=values["-column_running_add_time-"],
@@ -216,7 +224,7 @@ def main():
                     database_operations.deleteRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="running",
                         recordId=values["-column_running_delete_runningId-"],
                     )
@@ -225,7 +233,7 @@ def main():
                     database_operations.modifyRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="running",
                         column=values["-column_running_modify_column-"],
                         value=values["-column_running_modify_value-"],
@@ -243,7 +251,7 @@ def main():
                 if event == "Show diet records":
                     records = database_operations.showRecordsFromTableMatchingQuery(
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="diet",
                         column=values["-column_diet_show-"],
                         criterion=values["-criterion_diet_show-"],
@@ -262,7 +270,7 @@ def main():
                     database_operations.addRecordToDietTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         name=values["-column_diet_add_name-"],
                         start_date=values["-column_diet_add_start_date-"],
                         stop_date=values["-column_diet_add_stop_date-"],
@@ -273,7 +281,7 @@ def main():
                     database_operations.deleteRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="diet",
                         recordId=values["-column_diet_delete_dietId-"],
                     )
@@ -282,7 +290,7 @@ def main():
                     database_operations.modifyRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="diet",
                         column=values["-column_diet_modify_column-"],
                         value=values["-column_diet_modify_value-"],
@@ -300,7 +308,7 @@ def main():
                 if event == "Show weight lifting records":
                     records = database_operations.showRecordsFromTableMatchingQuery(
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="weight_lifting",
                         column=values["-column_weight_lifting_show-"],
                         criterion=values["-criterion_weight_lifting_show-"],
@@ -319,7 +327,7 @@ def main():
                     database_operations.addRecordToWeightLiftingTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         date=values["-column_weight_lifting_add_date-"],
                         type=values["-column_weight_lifting_add_type-"],
                         no_series=values["-column_weight_lifting_add_no_series-"],
@@ -333,7 +341,7 @@ def main():
                     database_operations.deleteRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="weight_lifting",
                         recordId=values[
                             "-column_weight_lifting_delete_weight_liftingId-"
@@ -344,7 +352,7 @@ def main():
                     database_operations.modifyRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="weight_lifting",
                         column=values["-column_weight_lifting_modify_column-"],
                         value=values["-column_weight_lifting_modify_value-"],
@@ -364,7 +372,7 @@ def main():
                 if event == "Show swimming records":
                     records = database_operations.showRecordsFromTableMatchingQuery(
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="swimming",
                         column=values["-column_swimming_show-"],
                         criterion=values["-criterion_swimming_show-"],
@@ -383,7 +391,7 @@ def main():
                     database_operations.addRecordToSwimmingTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         date=values["-column_swimming_add_date-"],
                         type=values["-column_swimming_add_type-"],
                         total_time=values["-column_swimming_add_time-"],
@@ -395,7 +403,7 @@ def main():
                     database_operations.deleteRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="swimming",
                         recordId=values["-column_swimming_delete_swimmingId-"],
                     )
@@ -404,7 +412,7 @@ def main():
                     database_operations.modifyRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="swimming",
                         column=values["-column_swimming_modify_column-"],
                         value=values["-column_swimming_modify_value-"],
@@ -422,7 +430,7 @@ def main():
                 if event == "Show rest records":
                     records = database_operations.showRecordsFromTableMatchingQuery(
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="rest",
                         column=values["-column_rest_show-"],
                         criterion=values["-criterion_rest_show-"],
@@ -441,7 +449,7 @@ def main():
                     database_operations.addRecordToRestTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         date=values["-column_rest_add_date-"],
                         night_sleep_hours=values["-column_rest_add_night_sleep_hours-"],
                         relax_hours=values["-column_rest_add_relax_hours-"],
@@ -451,7 +459,7 @@ def main():
                     database_operations.deleteRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="rest",
                         recordId=values["-column_rest_delete_restId-"],
                     )
@@ -460,7 +468,7 @@ def main():
                     database_operations.modifyRecordFromAnyTable(
                         connection=connection,
                         cursor=mycursor,
-                        person_id=int(username[5:]),
+                        person_id=person_id,
                         table="rest",
                         column=values["-column_rest_modify_column-"],
                         value=values["-column_rest_modify_value-"],

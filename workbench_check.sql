@@ -16,7 +16,11 @@ select * from running
     
 select * from personal_information;
 
-select * from swimming;
+select * from running;
+
+update running 
+	set `type` = "QWERTY1" 
+    where person_id = 1 and running_id = 4;
 
 update running 
 	set `type` = "interval"
@@ -25,6 +29,9 @@ update running
 drop database WorkoutTrackerDB;
 
 SELECT * FROM mysql.user;
+
+grant all privileges on WorkoutTrackerDB.* to 'super_user'@'localhost';
+grant alter on WorkoutTrackerDB.* to 'super_user'@'localhost';	
 
 
 

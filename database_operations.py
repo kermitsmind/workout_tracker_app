@@ -182,6 +182,7 @@ def createSuperUser(password, user="root"):
     create user 'super_user'@'localhost' identified by 'super_user_password';
     revoke all privileges, grant option from 'super_user'@'localhost';
     grant all privileges on WorkoutTrackerDB.* to 'super_user'@'localhost'; -- remember about .* after db name
+    grant alter on WorkoutTrackerDB.* to 'super_user'@'localhost';
     -- grant process on WorkoutTrackerDB.* to super_user@localhost; -- do in mysql from terminal logged with sudo
     """
     mycursor.execute(super_user)
@@ -198,7 +199,7 @@ def createAdminUser(password, user="root"):
     admin_user = """
     create user 'admin_user'@'localhost' identified by 'admin_user_password';
     revoke all privileges, grant option from 'admin_user'@'localhost';
-    grant select on WorkoutTrackerDB.* to 'admin_user'@'localhost';
+    grant all privileges on WorkoutTrackerDB.* to 'admin_user'@'localhost';
     grant alter on WorkoutTrackerDB.* to 'admin_user'@'localhost';
     """
     mycursor.execute(admin_user)

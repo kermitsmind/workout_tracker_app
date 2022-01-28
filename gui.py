@@ -471,6 +471,14 @@ backup = [
     [sg.Button("Make backup")],
 ]
 
+userID = [
+    [
+        sg.Text("User ID", size=(8, 1), font=16),
+        sg.InputText(key="-userID-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Select user")],
+]
+
 restore = [
     [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
     [
@@ -548,6 +556,22 @@ super_user_layout_normal = [
         )
     ],
 ]
+
+admin_user_layout = user_layout + [
+    [
+        sg.TabGroup(
+            [
+                [
+                    sg.Tab("User ID", userID),
+                ]
+            ],
+            key="-TAB GROUP-",
+            expand_x=True,
+            expand_y=True,
+        ),
+    ]
+]
+
 super_user_layout_normal += [
     [
         sg.TabGroup(
