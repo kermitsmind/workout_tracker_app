@@ -285,6 +285,63 @@ layout_diet_modify = [
 ]
 
 
+layout_weight_lifting_main = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")]
+]
+
+layout_weight_lifting_show = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [sg.Button("Show weight lifting records")],
+    [
+        sg.Text("Column", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_show-", size=(10, 1), font=16),
+        sg.Text("Criterion", size=(8, 1), font=16),
+        sg.InputText(key="-criterion_weight_lifting_show-", size=(10, 1), font=16),
+    ],
+    [sg.Text("What you print will display below:")],
+    [sg.Multiline("", size=(100, 10), key="_OP_3_", do_not_clear=True)],
+]
+
+layout_weight_lifting_add = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("Date", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_add_date-", size=(10, 1), font=16),
+        sg.Text("Type", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_add_type-", size=(10, 1), font=16),
+        sg.Text("No series", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_add_no_series-", size=(10, 1), font=16),
+        sg.Text("Repeats per series", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_add_repeats_per_series-", size=(10, 1), font=16),
+        sg.Text("Weight", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_add_weight-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Add weight lifting record")],
+]
+
+layout_weight_lifting_delete = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("weight lifting ID", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_delete_weight_liftingId-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Delete weight lifting record")],
+]
+
+layout_weight_lifting_modify = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("weight lifting ID", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_modify_weight_liftingId-", size=(10, 1), font=16),
+        sg.Text("Column", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_modify_column-", size=(10, 1), font=16),
+        sg.Text("Value", size=(8, 1), font=16),
+        sg.InputText(key="-column_weight_lifting_modify_value-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Modify weight lifting record")],
+]
+
+
 backup = [
     [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
     [
@@ -333,6 +390,11 @@ user_layout += [
                     sg.Tab("add", layout_diet_add),
                     sg.Tab("delete", layout_diet_delete),
                     sg.Tab("modify", layout_diet_modify),
+                    sg.Tab("WEIGHT LIFTING", layout_weight_lifting_main),
+                    sg.Tab("show", layout_weight_lifting_show),
+                    sg.Tab("add", layout_weight_lifting_add),
+                    sg.Tab("delete", layout_weight_lifting_delete),
+                    sg.Tab("modify", layout_weight_lifting_modify),
                 ]
             ],
             key="-TAB GROUP-",

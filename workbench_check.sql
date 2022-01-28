@@ -16,7 +16,7 @@ select * from running
     
 select * from personal_information;
 
-select * from running;
+select * from weight_lifting;
 
 update running 
 	set `type` = "interval"

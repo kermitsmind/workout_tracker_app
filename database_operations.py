@@ -341,7 +341,7 @@ def addRecordToSwimmingTable(
 def addRecordToWeightLiftingTable(
     connection, cursor, person_id, date, type, no_series, repeats_per_series, weight
 ):
-    sqlQueryForm = "insert into running (person_id, date, type, no_series, repeats_per_series, weight) values (%s, %s, %s, %s, %s, %s)"
+    sqlQueryForm = "insert into weight_lifting (person_id, date, type, no_series, repeats_per_series, weight) values (%s, %s, %s, %s, %s, %s)"
     sqlQueryData = (
         str(person_id),
         date,

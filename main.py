@@ -296,6 +296,65 @@ def main():
                         "dietId: ",
                         values["-column_diet_modify_dietId-"],
                     )
+
+                if event == "Show weight lifting records":
+                    records = database_operations.showRecordsFromTableMatchingQuery(
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="weight_lifting",
+                        column=values["-column_weight_lifting_show-"],
+                        criterion=values["-criterion_weight_lifting_show-"],
+                    )
+                    # print = window.FindElement("_OP_1_").update
+                    window.find_element("_OP_3_").update("")
+                    for x in records:
+                        window.find_element("_OP_3_").update(
+                            ("{}\n".format(x)), append=True
+                        )
+                        print(x)
+                        # time.sleep(1)
+                    pass
+
+                if event == "Add weight lifting record":
+                    database_operations.addRecordToWeightLiftingTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        date=values["-column_weight_lifting_add_date-"],
+                        type=values["-column_weight_lifting_add_type-"],
+                        no_series=values["-column_weight_lifting_add_no_series-"],
+                        repeats_per_series=values["-column_weight_lifting_add_repeats_per_series-"],
+                        weight=values["-column_weight_lifting_add_weight-"],
+                    )
+
+                if event == "Delete weight lifting record":
+                    database_operations.deleteRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="weight_lifting",
+                        recordId=values["-column_weight_lifting_delete_weight_liftingId-"],
+                    )
+
+                if event == "Modify weight lifting record":
+                    database_operations.modifyRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="weight_lifting",
+                        column=values["-column_weight_lifting_modify_column-"],
+                        value=values["-column_weight_lifting_modify_value-"],
+                        recordId=values["-column_weight_lifting_modify_weight_liftingId-"],
+                    )
+                    print(
+                        "column: ",
+                        values["-column_weight_lifting_modify_column-"],
+                        "value: ",
+                        values["-column_weight_lifting_modify_value-"],
+                        "weight_liftingId: ",
+                        values["-column_weight_lifting_modify_weight_liftingId-"],
+                    )
+
         window.close()
 
     if isUserLogged == "USER_LOGGED" and username.find("super") == 0:
