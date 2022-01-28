@@ -323,7 +323,9 @@ def main():
                         date=values["-column_weight_lifting_add_date-"],
                         type=values["-column_weight_lifting_add_type-"],
                         no_series=values["-column_weight_lifting_add_no_series-"],
-                        repeats_per_series=values["-column_weight_lifting_add_repeats_per_series-"],
+                        repeats_per_series=values[
+                            "-column_weight_lifting_add_repeats_per_series-"
+                        ],
                         weight=values["-column_weight_lifting_add_weight-"],
                     )
 
@@ -333,7 +335,9 @@ def main():
                         cursor=mycursor,
                         person_id=int(username[5:]),
                         table="weight_lifting",
-                        recordId=values["-column_weight_lifting_delete_weight_liftingId-"],
+                        recordId=values[
+                            "-column_weight_lifting_delete_weight_liftingId-"
+                        ],
                     )
 
                 if event == "Modify weight lifting record":
@@ -344,7 +348,9 @@ def main():
                         table="weight_lifting",
                         column=values["-column_weight_lifting_modify_column-"],
                         value=values["-column_weight_lifting_modify_value-"],
-                        recordId=values["-column_weight_lifting_modify_weight_liftingId-"],
+                        recordId=values[
+                            "-column_weight_lifting_modify_weight_liftingId-"
+                        ],
                     )
                     print(
                         "column: ",
