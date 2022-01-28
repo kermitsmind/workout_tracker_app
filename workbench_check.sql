@@ -21,6 +21,10 @@ select * from running;
 update running 
 	set `type` = "interval"
     where person_id = 1 and running_id = 3;
+    
+drop database WorkoutTrackerDB;
+
+SELECT * FROM mysql.user;
 
 
 

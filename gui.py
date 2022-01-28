@@ -130,7 +130,12 @@ login_layout = [
         sg.Text("Password", size=(15, 1), font=16),
         sg.InputText(key="-password-", password_char="*", font=16),
     ],
-    [sg.Button("Login"), sg.Button("Cancel"), sg.Button("Register")],
+    [
+        sg.Button("Login"),
+        sg.Button("Cancel"),
+        sg.Button("Register"),
+        sg.Button("Emergency login"),
+    ],
 ]
 
 register_layout = [
@@ -232,10 +237,19 @@ diet_show = [
 backup = [
     [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
     [
-        sg.Text("Backup_name", size=(8, 1), font=16),
+        sg.Text("Backup name", size=(8, 1), font=16),
         sg.InputText(key="-backup_name-", size=(10, 1), font=16),
     ],
     [sg.Button("Make backup")],
+]
+
+restore = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("Backup name", size=(8, 1), font=16),
+        sg.InputText(key="-backup_name-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Restore backup")],
 ]
 
 menu_def = [["Application", ["Exit"]], ["Help", ["About"]]]
@@ -273,7 +287,7 @@ user_layout += [
     ]
 ]
 
-super_user_layout = [
+super_user_layout_normal = [
     [sg.MenubarCustom(menu_def, key="-MENU-", font="Courier 15", tearoff=True)],
     [
         sg.Text(
@@ -287,7 +301,7 @@ super_user_layout = [
         )
     ],
 ]
-super_user_layout += [
+super_user_layout_normal += [
     [
         sg.TabGroup(
             [
@@ -298,6 +312,40 @@ super_user_layout += [
                     # sg.Tab("delete", layout_running_delete),
                     # sg.Tab("modify", layout_running_modify),
                     sg.Tab("BACKUP", backup),
+                ]
+            ],
+            key="-TAB GROUP-",
+            expand_x=True,
+            expand_y=True,
+        ),
+    ]
+]
+
+super_user_layout_emergency = [
+    [sg.MenubarCustom(menu_def, key="-MENU-", font="Courier 15", tearoff=True)],
+    [
+        sg.Text(
+            "App title",
+            size=(100, 1),
+            justification="center",
+            font=("Helvetica", 16),
+            relief=sg.RELIEF_RIDGE,
+            k="-TEXT HEADING-",
+            enable_events=True,
+        )
+    ],
+]
+super_user_layout_emergency += [
+    [
+        sg.TabGroup(
+            [
+                [
+                    # sg.Tab("RUNNING", layout_running_main),
+                    # sg.Tab("show", layout_running_show),
+                    # sg.Tab("add", layout_running_add),
+                    # sg.Tab("delete", layout_running_delete),
+                    # sg.Tab("modify", layout_running_modify),
+                    sg.Tab("BACKUP", restore),
                 ]
             ],
             key="-TAB GROUP-",

@@ -49,7 +49,7 @@ def createDatabase(host, user, password):
     mycursor = connection.cursor(prepared=True)
 
     #### create database
-    mycursor.execute("CREATE DATABASE WorkoutTrackerDB")
+    mycursor.execute("CREATE DATABASE IF NOT EXISTS WorkoutTrackerDB")
 
 
 def createDatabaseTables(host, user, password, database):
@@ -159,10 +159,13 @@ def createDatabaseBackup(mysqldumpPassword, backupName="workout_tracker_backup")
     os.system(command)
 
 
-def restoreDatabaseBackup(backupName):
+def restoreDatabaseBackup(mysqldumpPassword, backupName):
     command = (
-        "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysql --host=localhost --user=super_user --port=3306 -p WorkoutTrackerDB < "
+        "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysql --host=localhost --user=super_user --port=3306 -p"
+        + mysqldumpPassword
+        + " WorkoutTrackerDB < "
         + str(backupName)
+        + ".sql"
     )
     os.system(command)
 
@@ -218,6 +221,10 @@ def createUser(
         password=rootPassword,
         database="WorkoutTrackerDB",
     )
+
+    if connection == "ERROR":
+        return "ERROR"
+
     mycursor = connection.cursor()
 
     addUserToTable = "insert into personal_information (first_name, last_name, birth_date, phone_number, nationality, registration_date) values ("

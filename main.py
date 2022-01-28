@@ -1,16 +1,19 @@
 #### importing libraries
+from fileinput import hook_compressed
 import database_operations
 import gui
 import PySimpleGUI as sg
 import time
 
 #### get root and superUser password from file
-passwordFile = open(
+passwordFile_1 = open(
     "/Users/michal/Documents/Study/MSc/Semester II/Complex systems theory and practice/projectRootPassword"
 )
-rootPassword = passwordFile.readline()[:-1]
-superUserPassword = "super_user_password"
-adminUserPassword = "admin_user_password"
+passwordFile_2 = open(
+    "/Users/michal/Documents/Study/MSc/Semester II/Complex systems theory and practice/projectSuperuserPassword"
+)
+rootPassword = passwordFile_1.readline()[:-1]
+superUserPassword = passwordFile_2.readline()[:-1]
 
 
 def main():
@@ -83,6 +86,8 @@ def main():
     password = ""
     global connection
     isUserLogged = "USER_NOT_LOGGED"
+    global emergency_login
+    emergency_login = "NO"
 
     # login window + trying to connect to DB + if connection successful then retrieve lobin/password to variables
     window_login = sg.Window("Log In", gui.login_layout)
@@ -101,7 +106,7 @@ def main():
                     database="WorkoutTrackerDB",
                 )
                 if connection == "ERROR":
-                    sg.popup("Invalid credentials. Try again")
+                    sg.popup("Error occured. Try again")
                 else:
                     username = values_login["-username-"]
                     password = values_login["-password-"]
@@ -109,6 +114,14 @@ def main():
                     gui.progress_bar_login()
                     isUserLogged = "USER_LOGGED"
                     break
+            if event_login == "Emergency login":
+                emergency_login = "YES"
+                username = values_login["-username-"]
+                password = values_login["-password-"]
+                if username == "super_user" and password == superUserPassword:
+                    break
+                else:
+                    sg.popup("Error occured. Try again")
 
             if event_login == "Register":
                 window_register = sg.Window("Sign Up", gui.register_layout)
@@ -138,6 +151,10 @@ def main():
                                 userPassword=user_password,
                                 rootPassword=rootPassword,
                             )
+
+                            if userName == "ERROR":
+                                sg.popup("Error occured. Try again")
+                                break
 
                             message = "Your username: " + userName
                             sg.popup(message)
@@ -246,7 +263,7 @@ def main():
         column, criterion = "", ""
         mycursor = connection.cursor(prepared=True)
 
-        window = sg.Window("Super user account", gui.super_user_layout)
+        window = sg.Window("Super user account", gui.super_user_layout_normal)
         while True:
             event, values = window.read()
             if event in (None, "Exit") or event == sg.WIN_CLOSED:
@@ -254,8 +271,8 @@ def main():
             elif event in (None, "About"):
                 sg.popup("Help", "page", keep_on_top=True)
             else:
+                backupName = values["-backup_name-"]
                 if event == "Make backup":
-                    backupName = values["-backup_name-"]
                     if backupName == "":
                         database_operations.createDatabaseBackup(
                             mysqldumpPassword=password
@@ -264,6 +281,28 @@ def main():
                         database_operations.createDatabaseBackup(
                             mysqldumpPassword=password, backupName=backupName
                         )
+
+    if (
+        emergency_login == "YES"
+        and username == "super_user"
+        and password == superUserPassword
+    ):
+        window = sg.Window("Super user account", gui.super_user_layout_emergency)
+        while True:
+            event, values = window.read()
+            if event in (None, "Exit") or event == sg.WIN_CLOSED:
+                break
+            elif event in (None, "About"):
+                sg.popup("Help", "page", keep_on_top=True)
+            else:
+                backupName = values["-backup_name-"]
+                if event == "Restore backup":
+                    database_operations.createDatabase(
+                        host="localhost", user=username, password=password
+                    )
+                    database_operations.restoreDatabaseBackup(
+                        mysqldumpPassword=password, backupName=backupName
+                    )
         window.close()
 
 
