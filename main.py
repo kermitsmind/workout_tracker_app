@@ -155,11 +155,11 @@ def main():
                             if userName == "ERROR":
                                 sg.popup("Error occured. Try again")
                                 break
-
-                            message = "Your username: " + userName
-                            sg.popup(message)
-                            gui.progress_bar_register()
-                            break
+                            else:
+                                message = "Your username: " + userName
+                                sg.popup(message)
+                                gui.progress_bar_register()
+                                break
                 window_register.close()
     window_login.close()
 
@@ -202,297 +202,314 @@ def main():
                     person_id = values["-userID-"]
 
                 if event == "Show running records":
-                    records = database_operations.showRecordsFromTableMatchingQuery(
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="running",
-                        column=values["-column_running_show-"],
-                        criterion=values["-criterion_running_show-"],
-                    )
-                    # print = window.FindElement("_OP_1_").update
-                    window.find_element("_OP_1_").update("")
-                    for x in records:
-                        window.find_element("_OP_1_").update(
-                            ("{}\n".format(x)), append=True
+                    try:
+                        records = database_operations.showRecordsFromTableMatchingQuery(
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="running",
+                            column=values["-column_running_show-"],
+                            criterion=values["-criterion_running_show-"],
                         )
-                        print(x)
-                        # time.sleep(1)
-                    pass
+                        # print = window.FindElement("_OP_1_").update
+                        window.find_element("_OP_1_").update("")
+                        for x in records:
+                            window.find_element("_OP_1_").update(
+                                ("{}\n".format(x)), append=True
+                            )
+                            print(x)
+                            # time.sleep(1)
+                    except:
+                        pass
 
                 if event == "Add running record":
-                    database_operations.addRecordToRunningTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        date=values["-column_running_add_date-"],
-                        type=values["-column_running_add_type-"],
-                        total_time=values["-column_running_add_time-"],
-                        total_distance=values["-column_running_add_distance-"],
-                        terrain=values["-column_running_add_terrain-"],
-                    )
+                    try:
+                        database_operations.addRecordToRunningTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            date=values["-column_running_add_date-"],
+                            type=values["-column_running_add_type-"],
+                            total_time=values["-column_running_add_time-"],
+                            total_distance=values["-column_running_add_distance-"],
+                            terrain=values["-column_running_add_terrain-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Delete running record":
-                    database_operations.deleteRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="running",
-                        recordId=values["-column_running_delete_runningId-"],
-                    )
+                    try:
+                        database_operations.deleteRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="running",
+                            recordId=values["-column_running_delete_runningId-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Modify running record":
-                    database_operations.modifyRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="running",
-                        column=values["-column_running_modify_column-"],
-                        value=values["-column_running_modify_value-"],
-                        recordId=values["-column_running_modify_runningId-"],
-                    )
-                    print(
-                        "column: ",
-                        values["-column_running_modify_column-"],
-                        "value: ",
-                        values["-column_running_modify_value-"],
-                        "runningId: ",
-                        values["-column_running_modify_runningId-"],
-                    )
+                    try:
+                        database_operations.modifyRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="running",
+                            column=values["-column_running_modify_column-"],
+                            value=values["-column_running_modify_value-"],
+                            recordId=values["-column_running_modify_runningId-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Show diet records":
-                    records = database_operations.showRecordsFromTableMatchingQuery(
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="diet",
-                        column=values["-column_diet_show-"],
-                        criterion=values["-criterion_diet_show-"],
-                    )
-                    # print = window.FindElement("_OP_1_").update
-                    window.find_element("_OP_2_").update("")
-                    for x in records:
-                        window.find_element("_OP_2_").update(
-                            ("{}\n".format(x)), append=True
+                    try:
+                        records = database_operations.showRecordsFromTableMatchingQuery(
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="diet",
+                            column=values["-column_diet_show-"],
+                            criterion=values["-criterion_diet_show-"],
                         )
-                        print(x)
-                        # time.sleep(1)
-                    pass
+                        # print = window.FindElement("_OP_1_").update
+                        window.find_element("_OP_2_").update("")
+                        for x in records:
+                            window.find_element("_OP_2_").update(
+                                ("{}\n".format(x)), append=True
+                            )
+                            print(x)
+                            # time.sleep(1)
+                    except:
+                        pass
 
                 if event == "Add diet record":
-                    database_operations.addRecordToDietTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        name=values["-column_diet_add_name-"],
-                        start_date=values["-column_diet_add_start_date-"],
-                        stop_date=values["-column_diet_add_stop_date-"],
-                        calories=values["-column_diet_add_calories-"],
-                    )
+                    try:
+                        database_operations.addRecordToDietTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            name=values["-column_diet_add_name-"],
+                            start_date=values["-column_diet_add_start_date-"],
+                            stop_date=values["-column_diet_add_stop_date-"],
+                            calories=values["-column_diet_add_calories-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Delete diet record":
-                    database_operations.deleteRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="diet",
-                        recordId=values["-column_diet_delete_dietId-"],
-                    )
+                    try:
+                        database_operations.deleteRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="diet",
+                            recordId=values["-column_diet_delete_dietId-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Modify diet record":
-                    database_operations.modifyRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="diet",
-                        column=values["-column_diet_modify_column-"],
-                        value=values["-column_diet_modify_value-"],
-                        recordId=values["-column_diet_modify_dietId-"],
-                    )
-                    print(
-                        "column: ",
-                        values["-column_diet_modify_column-"],
-                        "value: ",
-                        values["-column_diet_modify_value-"],
-                        "dietId: ",
-                        values["-column_diet_modify_dietId-"],
-                    )
+                    try:
+                        database_operations.modifyRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="diet",
+                            column=values["-column_diet_modify_column-"],
+                            value=values["-column_diet_modify_value-"],
+                            recordId=values["-column_diet_modify_dietId-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Show weight lifting records":
-                    records = database_operations.showRecordsFromTableMatchingQuery(
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="weight_lifting",
-                        column=values["-column_weight_lifting_show-"],
-                        criterion=values["-criterion_weight_lifting_show-"],
-                    )
-                    # print = window.FindElement("_OP_1_").update
-                    window.find_element("_OP_3_").update("")
-                    for x in records:
-                        window.find_element("_OP_3_").update(
-                            ("{}\n".format(x)), append=True
+                    try:
+                        records = database_operations.showRecordsFromTableMatchingQuery(
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="weight_lifting",
+                            column=values["-column_weight_lifting_show-"],
+                            criterion=values["-criterion_weight_lifting_show-"],
                         )
-                        print(x)
-                        # time.sleep(1)
-                    pass
+                        # print = window.FindElement("_OP_1_").update
+                        window.find_element("_OP_3_").update("")
+                        for x in records:
+                            window.find_element("_OP_3_").update(
+                                ("{}\n".format(x)), append=True
+                            )
+                            print(x)
+                            # time.sleep(1)
+                    except:
+                        pass
 
                 if event == "Add weight lifting record":
-                    database_operations.addRecordToWeightLiftingTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        date=values["-column_weight_lifting_add_date-"],
-                        type=values["-column_weight_lifting_add_type-"],
-                        no_series=values["-column_weight_lifting_add_no_series-"],
-                        repeats_per_series=values[
-                            "-column_weight_lifting_add_repeats_per_series-"
-                        ],
-                        weight=values["-column_weight_lifting_add_weight-"],
-                    )
+                    try:
+                        database_operations.addRecordToWeightLiftingTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            date=values["-column_weight_lifting_add_date-"],
+                            type=values["-column_weight_lifting_add_type-"],
+                            no_series=values["-column_weight_lifting_add_no_series-"],
+                            repeats_per_series=values[
+                                "-column_weight_lifting_add_repeats_per_series-"
+                            ],
+                            weight=values["-column_weight_lifting_add_weight-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Delete weight lifting record":
-                    database_operations.deleteRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="weight_lifting",
-                        recordId=values[
-                            "-column_weight_lifting_delete_weight_liftingId-"
-                        ],
-                    )
+                    try:
+                        database_operations.deleteRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="weight_lifting",
+                            recordId=values[
+                                "-column_weight_lifting_delete_weight_liftingId-"
+                            ],
+                        )
+                    except:
+                        pass
 
                 if event == "Modify weight lifting record":
-                    database_operations.modifyRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="weight_lifting",
-                        column=values["-column_weight_lifting_modify_column-"],
-                        value=values["-column_weight_lifting_modify_value-"],
-                        recordId=values[
-                            "-column_weight_lifting_modify_weight_liftingId-"
-                        ],
-                    )
-                    print(
-                        "column: ",
-                        values["-column_weight_lifting_modify_column-"],
-                        "value: ",
-                        values["-column_weight_lifting_modify_value-"],
-                        "weight_liftingId: ",
-                        values["-column_weight_lifting_modify_weight_liftingId-"],
-                    )
+                    try:
+                        database_operations.modifyRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="weight_lifting",
+                            column=values["-column_weight_lifting_modify_column-"],
+                            value=values["-column_weight_lifting_modify_value-"],
+                            recordId=values[
+                                "-column_weight_lifting_modify_weight_liftingId-"
+                            ],
+                        )
+                    except:
+                        pass
 
                 if event == "Show swimming records":
-                    records = database_operations.showRecordsFromTableMatchingQuery(
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="swimming",
-                        column=values["-column_swimming_show-"],
-                        criterion=values["-criterion_swimming_show-"],
-                    )
-                    # print = window.FindElement("_OP_1_").update
-                    window.find_element("_OP_4_").update("")
-                    for x in records:
-                        window.find_element("_OP_4_").update(
-                            ("{}\n".format(x)), append=True
+                    try:
+                        records = database_operations.showRecordsFromTableMatchingQuery(
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="swimming",
+                            column=values["-column_swimming_show-"],
+                            criterion=values["-criterion_swimming_show-"],
                         )
-                        print(x)
-                        # time.sleep(1)
-                    pass
+                        # print = window.FindElement("_OP_1_").update
+                        window.find_element("_OP_4_").update("")
+                        for x in records:
+                            window.find_element("_OP_4_").update(
+                                ("{}\n".format(x)), append=True
+                            )
+                            print(x)
+                            # time.sleep(1)
+                    except:
+                        pass
 
                 if event == "Add swimming record":
-                    database_operations.addRecordToSwimmingTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        date=values["-column_swimming_add_date-"],
-                        type=values["-column_swimming_add_type-"],
-                        total_time=values["-column_swimming_add_time-"],
-                        total_distance=values["-column_swimming_add_distance-"],
-                        water=values["-column_swimming_add_water-"],
-                    )
+                    try:
+                        database_operations.addRecordToSwimmingTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            date=values["-column_swimming_add_date-"],
+                            type=values["-column_swimming_add_type-"],
+                            total_time=values["-column_swimming_add_time-"],
+                            total_distance=values["-column_swimming_add_distance-"],
+                            water=values["-column_swimming_add_water-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Delete swimming record":
-                    database_operations.deleteRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="swimming",
-                        recordId=values["-column_swimming_delete_swimmingId-"],
-                    )
+                    try:
+                        database_operations.deleteRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="swimming",
+                            recordId=values["-column_swimming_delete_swimmingId-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Modify swimming record":
-                    database_operations.modifyRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="swimming",
-                        column=values["-column_swimming_modify_column-"],
-                        value=values["-column_swimming_modify_value-"],
-                        recordId=values["-column_swimming_modify_swimmingId-"],
-                    )
-                    print(
-                        "column: ",
-                        values["-column_swimming_modify_column-"],
-                        "value: ",
-                        values["-column_swimming_modify_value-"],
-                        "swimmingId: ",
-                        values["-column_swimming_modify_swimmingId-"],
-                    )
+                    try:
+                        database_operations.modifyRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="swimming",
+                            column=values["-column_swimming_modify_column-"],
+                            value=values["-column_swimming_modify_value-"],
+                            recordId=values["-column_swimming_modify_swimmingId-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Show rest records":
-                    records = database_operations.showRecordsFromTableMatchingQuery(
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="rest",
-                        column=values["-column_rest_show-"],
-                        criterion=values["-criterion_rest_show-"],
-                    )
-                    # print = window.FindElement("_OP_1_").update
-                    window.find_element("_OP_5_").update("")
-                    for x in records:
-                        window.find_element("_OP_5_").update(
-                            ("{}\n".format(x)), append=True
+                    try:
+                        records = database_operations.showRecordsFromTableMatchingQuery(
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="rest",
+                            column=values["-column_rest_show-"],
+                            criterion=values["-criterion_rest_show-"],
                         )
-                        print(x)
-                        # time.sleep(1)
-                    pass
+                        # print = window.FindElement("_OP_1_").update
+                        window.find_element("_OP_5_").update("")
+                        for x in records:
+                            window.find_element("_OP_5_").update(
+                                ("{}\n".format(x)), append=True
+                            )
+                            print(x)
+                            # time.sleep(1)
+                    except:
+                        pass
 
                 if event == "Add rest record":
-                    database_operations.addRecordToRestTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        date=values["-column_rest_add_date-"],
-                        night_sleep_hours=values["-column_rest_add_night_sleep_hours-"],
-                        relax_hours=values["-column_rest_add_relax_hours-"],
-                    )
+                    try:
+                        database_operations.addRecordToRestTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            date=values["-column_rest_add_date-"],
+                            night_sleep_hours=values[
+                                "-column_rest_add_night_sleep_hours-"
+                            ],
+                            relax_hours=values["-column_rest_add_relax_hours-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Delete rest record":
-                    database_operations.deleteRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="rest",
-                        recordId=values["-column_rest_delete_restId-"],
-                    )
+                    try:
+                        database_operations.deleteRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="rest",
+                            recordId=values["-column_rest_delete_restId-"],
+                        )
+                    except:
+                        pass
 
                 if event == "Modify rest record":
-                    database_operations.modifyRecordFromAnyTable(
-                        connection=connection,
-                        cursor=mycursor,
-                        person_id=person_id,
-                        table="rest",
-                        column=values["-column_rest_modify_column-"],
-                        value=values["-column_rest_modify_value-"],
-                        recordId=values["-column_rest_modify_restId-"],
-                    )
-                    print(
-                        "column: ",
-                        values["-column_rest_modify_column-"],
-                        "value: ",
-                        values["-column_rest_modify_value-"],
-                        "restId: ",
-                        values["-column_rest_modify_restId-"],
-                    )
+                    try:
+                        database_operations.modifyRecordFromAnyTable(
+                            connection=connection,
+                            cursor=mycursor,
+                            person_id=person_id,
+                            table="rest",
+                            column=values["-column_rest_modify_column-"],
+                            value=values["-column_rest_modify_value-"],
+                            recordId=values["-column_rest_modify_restId-"],
+                        )
+                    except:
+                        pass
 
         window.close()
 
