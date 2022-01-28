@@ -362,7 +362,7 @@ def addRecordToWeightLiftingTable(
 def addRecordToRestTable(
     connection, cursor, person_id, date, night_sleep_hours, relax_hours
 ):
-    sqlQueryForm = "insert into rest (person_id, name, date, night_sleep_hours, relax_hours) values (%s, %s, %s, %s, %s)"
+    sqlQueryForm = "insert into rest (person_id, date, night_sleep_hours, relax_hours) values (%s, %s, %s, %s)"
     sqlQueryData = (str(person_id), date, str(night_sleep_hours), str(relax_hours))
 
     try:

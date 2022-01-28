@@ -419,6 +419,62 @@ def main():
                         values["-column_swimming_modify_swimmingId-"],
                     )
 
+                if event == "Show rest records":
+                    records = database_operations.showRecordsFromTableMatchingQuery(
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="rest",
+                        column=values["-column_rest_show-"],
+                        criterion=values["-criterion_rest_show-"],
+                    )
+                    # print = window.FindElement("_OP_1_").update
+                    window.find_element("_OP_5_").update("")
+                    for x in records:
+                        window.find_element("_OP_5_").update(
+                            ("{}\n".format(x)), append=True
+                        )
+                        print(x)
+                        # time.sleep(1)
+                    pass
+
+                if event == "Add rest record":
+                    database_operations.addRecordToRestTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        date=values["-column_rest_add_date-"],
+                        night_sleep_hours=values["-column_rest_add_night_sleep_hours-"],
+                        relax_hours=values["-column_rest_add_relax_hours-"],
+                    )
+
+                if event == "Delete rest record":
+                    database_operations.deleteRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="rest",
+                        recordId=values["-column_rest_delete_restId-"],
+                    )
+
+                if event == "Modify rest record":
+                    database_operations.modifyRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="rest",
+                        column=values["-column_rest_modify_column-"],
+                        value=values["-column_rest_modify_value-"],
+                        recordId=values["-column_rest_modify_restId-"],
+                    )
+                    print(
+                        "column: ",
+                        values["-column_rest_modify_column-"],
+                        "value: ",
+                        values["-column_rest_modify_value-"],
+                        "restId: ",
+                        values["-column_rest_modify_restId-"],
+                    )
+
         window.close()
 
     if isUserLogged == "USER_LOGGED" and username.find("super") == 0:

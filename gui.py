@@ -408,6 +408,60 @@ layout_swimming_modify = [
     [sg.Button("Modify swimming record")],
 ]
 
+
+layout_rest_main = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")]
+]
+
+layout_rest_show = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [sg.Button("Show rest records")],
+    [
+        sg.Text("Column", size=(8, 1), font=16),
+        sg.InputText(key="-column_rest_show-", size=(10, 1), font=16),
+        sg.Text("Criterion", size=(8, 1), font=16),
+        sg.InputText(key="-criterion_rest_show-", size=(10, 1), font=16),
+    ],
+    [sg.Text("What you print will display below:")],
+    [sg.Multiline("", size=(100, 10), key="_OP_5_", do_not_clear=True)],
+]
+
+layout_rest_add = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("Date", size=(8, 1), font=16),
+        sg.InputText(key="-column_rest_add_date-", size=(10, 1), font=16),
+        sg.Text("Night sleep hours", size=(8, 1), font=16),
+        sg.InputText(key="-column_rest_add_night_sleep_hours-", size=(10, 1), font=16),
+        sg.Text("Relax hours", size=(8, 1), font=16),
+        sg.InputText(key="-column_rest_add_relax_hours-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Add rest record")],
+]
+
+layout_rest_delete = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("rest ID", size=(8, 1), font=16),
+        sg.InputText(key="-column_rest_delete_restId-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Delete rest record")],
+]
+
+layout_rest_modify = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("rest ID", size=(8, 1), font=16),
+        sg.InputText(key="-column_rest_modify_restId-", size=(10, 1), font=16),
+        sg.Text("Column", size=(8, 1), font=16),
+        sg.InputText(key="-column_rest_modify_column-", size=(10, 1), font=16),
+        sg.Text("Value", size=(8, 1), font=16),
+        sg.InputText(key="-column_rest_modify_value-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Modify rest record")],
+]
+
+
 backup = [
     [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
     [
@@ -466,6 +520,11 @@ user_layout += [
                     sg.Tab("add", layout_swimming_add),
                     sg.Tab("delete", layout_swimming_delete),
                     sg.Tab("modify", layout_swimming_modify),
+                    sg.Tab("REST", layout_rest_main),
+                    sg.Tab("show", layout_rest_show),
+                    sg.Tab("add", layout_rest_add),
+                    sg.Tab("delete", layout_rest_delete),
+                    sg.Tab("modify", layout_rest_modify),
                 ]
             ],
             key="-TAB GROUP-",
