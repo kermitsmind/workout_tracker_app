@@ -320,7 +320,7 @@ def addRecordToDietTable(
 def addRecordToSwimmingTable(
     connection, cursor, person_id, date, type, total_time, total_distance, water
 ):
-    sqlQueryForm = "insert into running (person_id, date, type, total_time, total_distance, terrain) values (%s, %s, %s, %s, %s, %s)"
+    sqlQueryForm = "insert into swimming (person_id, date, type, total_time, total_distance, water) values (%s, %s, %s, %s, %s, %s)"
     sqlQueryData = (
         str(person_id),
         date,
@@ -362,7 +362,7 @@ def addRecordToWeightLiftingTable(
 def addRecordToRestTable(
     connection, cursor, person_id, date, night_sleep_hours, relax_hours
 ):
-    sqlQueryForm = "insert into diet (person_id, name, date, night_sleep_hours, relax_hours) values (%s, %s, %s, %s, %s)"
+    sqlQueryForm = "insert into rest (person_id, name, date, night_sleep_hours, relax_hours) values (%s, %s, %s, %s, %s)"
     sqlQueryData = (str(person_id), date, str(night_sleep_hours), str(relax_hours))
 
     try:

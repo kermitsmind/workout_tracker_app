@@ -352,6 +352,62 @@ layout_weight_lifting_modify = [
 ]
 
 
+layout_swimming_main = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")]
+]
+
+layout_swimming_show = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [sg.Button("Show swimming records")],
+    [
+        sg.Text("Column", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_show-", size=(10, 1), font=16),
+        sg.Text("Criterion", size=(8, 1), font=16),
+        sg.InputText(key="-criterion_swimming_show-", size=(10, 1), font=16),
+    ],
+    [sg.Text("What you print will display below:")],
+    [sg.Multiline("", size=(100, 10), key="_OP_4_", do_not_clear=True)],
+]
+
+layout_swimming_add = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("Date", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_add_date-", size=(10, 1), font=16),
+        sg.Text("Type", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_add_type-", size=(10, 1), font=16),
+        sg.Text("Time", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_add_time-", size=(10, 1), font=16),
+        sg.Text("Distance", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_add_distance-", size=(10, 1), font=16),
+        sg.Text("Water", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_add_water-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Add swimming record")],
+]
+
+layout_swimming_delete = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("swimming ID", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_delete_swimmingId-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Delete swimming record")],
+]
+
+layout_swimming_modify = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("swimming ID", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_modify_swimmingId-", size=(10, 1), font=16),
+        sg.Text("Column", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_modify_column-", size=(10, 1), font=16),
+        sg.Text("Value", size=(8, 1), font=16),
+        sg.InputText(key="-column_swimming_modify_value-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Modify swimming record")],
+]
+
 backup = [
     [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
     [
@@ -405,6 +461,11 @@ user_layout += [
                     sg.Tab("add", layout_weight_lifting_add),
                     sg.Tab("delete", layout_weight_lifting_delete),
                     sg.Tab("modify", layout_weight_lifting_modify),
+                    sg.Tab("SWIMMING", layout_swimming_main),
+                    sg.Tab("show", layout_swimming_show),
+                    sg.Tab("add", layout_swimming_add),
+                    sg.Tab("delete", layout_swimming_delete),
+                    sg.Tab("modify", layout_swimming_modify),
                 ]
             ],
             key="-TAB GROUP-",

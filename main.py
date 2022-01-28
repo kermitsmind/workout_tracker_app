@@ -361,6 +361,64 @@ def main():
                         values["-column_weight_lifting_modify_weight_liftingId-"],
                     )
 
+                if event == "Show swimming records":
+                    records = database_operations.showRecordsFromTableMatchingQuery(
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="swimming",
+                        column=values["-column_swimming_show-"],
+                        criterion=values["-criterion_swimming_show-"],
+                    )
+                    # print = window.FindElement("_OP_1_").update
+                    window.find_element("_OP_4_").update("")
+                    for x in records:
+                        window.find_element("_OP_4_").update(
+                            ("{}\n".format(x)), append=True
+                        )
+                        print(x)
+                        # time.sleep(1)
+                    pass
+
+                if event == "Add swimming record":
+                    database_operations.addRecordToSwimmingTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        date=values["-column_swimming_add_date-"],
+                        type=values["-column_swimming_add_type-"],
+                        total_time=values["-column_swimming_add_time-"],
+                        total_distance=values["-column_swimming_add_distance-"],
+                        water=values["-column_swimming_add_water-"],
+                    )
+
+                if event == "Delete swimming record":
+                    database_operations.deleteRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="swimming",
+                        recordId=values["-column_swimming_delete_swimmingId-"],
+                    )
+
+                if event == "Modify swimming record":
+                    database_operations.modifyRecordFromAnyTable(
+                        connection=connection,
+                        cursor=mycursor,
+                        person_id=int(username[5:]),
+                        table="swimming",
+                        column=values["-column_swimming_modify_column-"],
+                        value=values["-column_swimming_modify_value-"],
+                        recordId=values["-column_swimming_modify_swimmingId-"],
+                    )
+                    print(
+                        "column: ",
+                        values["-column_swimming_modify_column-"],
+                        "value: ",
+                        values["-column_swimming_modify_value-"],
+                        "swimmingId: ",
+                        values["-column_swimming_modify_swimmingId-"],
+                    )
+
         window.close()
 
     if isUserLogged == "USER_LOGGED" and username.find("super") == 0:
