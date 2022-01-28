@@ -77,7 +77,8 @@ def main():
     # database_operations.closeConnectionToDB(connection=connection)
     # global username, password
     # gui.loginUserWindow()
-
+    global username
+    global password
     username = ""
     password = ""
     global connection
@@ -146,17 +147,17 @@ def main():
     window_login.close()
 
     #### user is logged
+    global column
+    global criterion
     if (
         isUserLogged == "USER_LOGGED"
         and username.find("admin") == -1
         and username.find("super") == -1
     ):
-        global column
-        global criterion
         column, criterion = "", ""
         mycursor = connection.cursor(prepared=True)
 
-        window = sg.Window("User account", gui.layout)
+        window = sg.Window("User account", gui.user_layout)
         while True:
             event, values = window.read()
             if event in (None, "Exit") or event == sg.WIN_CLOSED:
@@ -239,6 +240,30 @@ def main():
                         print(x)
                         # time.sleep(1)
                     pass
+        window.close()
+
+    if isUserLogged == "USER_LOGGED" and username.find("super") == 0:
+        column, criterion = "", ""
+        mycursor = connection.cursor(prepared=True)
+
+        window = sg.Window("Super user account", gui.super_user_layout)
+        while True:
+            event, values = window.read()
+            if event in (None, "Exit") or event == sg.WIN_CLOSED:
+                break
+            elif event in (None, "About"):
+                sg.popup("Help", "page", keep_on_top=True)
+            else:
+                if event == "Make backup":
+                    backupName = values["-backup_name-"]
+                    if backupName == "":
+                        database_operations.createDatabaseBackup(
+                            mysqldumpPassword=password
+                        )
+                    else:
+                        database_operations.createDatabaseBackup(
+                            mysqldumpPassword=password, backupName=backupName
+                        )
         window.close()
 
 

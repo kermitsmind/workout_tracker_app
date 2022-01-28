@@ -32,7 +32,7 @@ CREATE TABLE `diet` (
   PRIMARY KEY (`diet_id`),
   KEY `person_id` (`person_id`),
   CONSTRAINT `diet_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `personal_information` (`person_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `diet` (
 
 LOCK TABLES `diet` WRITE;
 /*!40000 ALTER TABLE `diet` DISABLE KEYS */;
+INSERT INTO `diet` VALUES (1,2,'2000_calories','2021-12-13','2022-11-14',2000);
 /*!40000 ALTER TABLE `diet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +61,7 @@ CREATE TABLE `personal_information` (
   `nationality` varchar(90) DEFAULT NULL,
   `registration_date` date DEFAULT NULL,
   PRIMARY KEY (`person_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +70,7 @@ CREATE TABLE `personal_information` (
 
 LOCK TABLES `personal_information` WRITE;
 /*!40000 ALTER TABLE `personal_information` DISABLE KEYS */;
+INSERT INTO `personal_information` VALUES (1,'Adam','Smith','1998-03-12',123456789,'Polish','2011-12-12'),(2,'John','Wynn','1997-09-11',123456789,'Polish','2011-12-12'),(3,'a','b','2022-01-01',123234345,'American','2022-01-27');
 /*!40000 ALTER TABLE `personal_information` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +120,7 @@ CREATE TABLE `running` (
   PRIMARY KEY (`running_id`),
   KEY `person_id` (`person_id`),
   CONSTRAINT `running_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `personal_information` (`person_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,6 +129,7 @@ CREATE TABLE `running` (
 
 LOCK TABLES `running` WRITE;
 /*!40000 ALTER TABLE `running` DISABLE KEYS */;
+INSERT INTO `running` VALUES (2,1,'2022-01-19','interval',1278,9786,'indoor'),(3,1,'2022-01-22','hello_world',578,786,'indoor'),(4,1,'2022-01-24','interval',1578,2786,'outdoor'),(5,2,'2021-12-14','interval',1789,1786,'outdoor'),(7,3,'2022-01-27','sprint',123,12234,'outdoor');
 /*!40000 ALTER TABLE `running` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,4 +202,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-19 12:51:41
+-- Dump completed on 2022-01-28 12:31:26

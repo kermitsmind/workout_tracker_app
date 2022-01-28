@@ -4,6 +4,7 @@ import mysql.connector
 from mysql.connector import errorcode
 import os
 import sys
+import subprocess
 
 
 #### open connection with given credentials and return the connection object
@@ -146,10 +147,13 @@ def createDatabaseTables(host, user, password, database):
     mycursor.execute(table_6_cst)
 
 
-def createDatabaseBackup(backupName):
+def createDatabaseBackup(mysqldumpPassword, backupName="workout_tracker_backup"):
     command = (
-        "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysqldump --user=super_user -p WorkoutTrackerDB > "
+        "/usr/local/mysql-8.0.27-macos11-arm64/bin/mysqldump --user=super_user -p"
+        + mysqldumpPassword
+        + " WorkoutTrackerDB > "
         + str(backupName)
+        + ".sql"
     )
     print(command)
     os.system(command)

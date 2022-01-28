@@ -229,8 +229,17 @@ diet_show = [
     [sg.Multiline("", size=(100, 10), key="_OP_2_", do_not_clear=True)],
 ]
 
+backup = [
+    [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
+    [
+        sg.Text("Backup_name", size=(8, 1), font=16),
+        sg.InputText(key="-backup_name-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Make backup")],
+]
+
 menu_def = [["Application", ["Exit"]], ["Help", ["About"]]]
-layout = [
+user_layout = [
     [sg.MenubarCustom(menu_def, key="-MENU-", font="Courier 15", tearoff=True)],
     [
         sg.Text(
@@ -244,7 +253,7 @@ layout = [
         )
     ],
 ]
-layout += [
+user_layout += [
     [
         sg.TabGroup(
             [
@@ -255,6 +264,40 @@ layout += [
                     sg.Tab("delete", layout_running_delete),
                     sg.Tab("modify", layout_running_modify),
                     sg.Tab("Diet - show", diet_show),
+                ]
+            ],
+            key="-TAB GROUP-",
+            expand_x=True,
+            expand_y=True,
+        ),
+    ]
+]
+
+super_user_layout = [
+    [sg.MenubarCustom(menu_def, key="-MENU-", font="Courier 15", tearoff=True)],
+    [
+        sg.Text(
+            "App title",
+            size=(100, 1),
+            justification="center",
+            font=("Helvetica", 16),
+            relief=sg.RELIEF_RIDGE,
+            k="-TEXT HEADING-",
+            enable_events=True,
+        )
+    ],
+]
+super_user_layout += [
+    [
+        sg.TabGroup(
+            [
+                [
+                    # sg.Tab("RUNNING", layout_running_main),
+                    # sg.Tab("show", layout_running_show),
+                    # sg.Tab("add", layout_running_add),
+                    # sg.Tab("delete", layout_running_delete),
+                    # sg.Tab("modify", layout_running_modify),
+                    sg.Tab("BACKUP", backup),
                 ]
             ],
             key="-TAB GROUP-",
