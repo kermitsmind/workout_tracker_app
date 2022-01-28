@@ -167,18 +167,17 @@ def main():
     global column
     global criterion
     global person_id
-    if (
-        isUserLogged == "USER_LOGGED"
-        and username.find("super") == -1
-    ):
+    if isUserLogged == "USER_LOGGED":
         column, criterion = "", ""
         mycursor = connection.cursor(prepared=True)
 
-        if username.find("admin") == -1:
+        if username == "super_user":
+            window = sg.Window("Super user account", gui.super_user_layout)
+        elif username == "admin_user":
+            window = sg.Window("Admin user account", gui.admin_user_layout)
+        elif username.find("super") == -1 and username.find("admin") == -1:
             window = sg.Window("User account", gui.user_layout)
-            person_id=int(username[5:])
-        else:
-            window = sg.Window("User account", gui.admin_user_layout)
+            person_id = int(username[5:])
 
         while True:
             event, values = window.read()
@@ -187,8 +186,20 @@ def main():
             elif event in (None, "About"):
                 sg.popup("Help", "page", keep_on_top=True)
             else:
+                if username == "super_user":
+                    backupName = values["-backup_name-"]
+                    if event == "Make backup":
+                        if backupName == "":
+                            database_operations.createDatabaseBackup(
+                                mysqldumpPassword=password
+                            )
+                        else:
+                            database_operations.createDatabaseBackup(
+                                mysqldumpPassword=password, backupName=backupName
+                            )
+
                 if event == "Select user":
-                    person_id=values["-userID-"]
+                    person_id = values["-userID-"]
 
                 if event == "Show running records":
                     records = database_operations.showRecordsFromTableMatchingQuery(
@@ -485,29 +496,6 @@ def main():
 
         window.close()
 
-    if isUserLogged == "USER_LOGGED" and username.find("super") == 0:
-        column, criterion = "", ""
-        mycursor = connection.cursor(prepared=True)
-
-        window = sg.Window("Super user account", gui.super_user_layout_normal)
-        while True:
-            event, values = window.read()
-            if event in (None, "Exit") or event == sg.WIN_CLOSED:
-                break
-            elif event in (None, "About"):
-                sg.popup("Help", "page", keep_on_top=True)
-            else:
-                backupName = values["-backup_name-"]
-                if event == "Make backup":
-                    if backupName == "":
-                        database_operations.createDatabaseBackup(
-                            mysqldumpPassword=password
-                        )
-                    else:
-                        database_operations.createDatabaseBackup(
-                            mysqldumpPassword=password, backupName=backupName
-                        )
-
     if (
         emergency_login == "YES"
         and username == "super_user"
@@ -521,7 +509,7 @@ def main():
             elif event in (None, "About"):
                 sg.popup("Help", "page", keep_on_top=True)
             else:
-                backupName = values["-backup_name-"]
+                backupName = values["-backup_name_emergency-"]
                 if event == "Restore backup":
                     database_operations.createDatabase(
                         host="localhost", user=username, password=password

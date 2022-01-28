@@ -479,11 +479,19 @@ userID = [
     [sg.Button("Select user")],
 ]
 
+userID1 = [
+    [
+        sg.Text("User ID", size=(8, 1), font=16),
+        sg.InputText(key="-userID-", size=(10, 1), font=16),
+    ],
+    [sg.Button("Select user")],
+]
+
 restore = [
     [sg.Text("Some info string", size=(15, 1), font=40, justification="c")],
     [
         sg.Text("Backup name", size=(8, 1), font=16),
-        sg.InputText(key="-backup_name-", size=(10, 1), font=16),
+        sg.InputText(key="-backup_name_emergency-", size=(10, 1), font=16),
     ],
     [sg.Button("Restore backup")],
 ]
@@ -542,21 +550,6 @@ user_layout += [
     ]
 ]
 
-super_user_layout_normal = [
-    [sg.MenubarCustom(menu_def, key="-MENU-", font="Courier 15", tearoff=True)],
-    [
-        sg.Text(
-            "App title",
-            size=(100, 1),
-            justification="center",
-            font=("Helvetica", 16),
-            relief=sg.RELIEF_RIDGE,
-            k="-TEXT HEADING-",
-            enable_events=True,
-        )
-    ],
-]
-
 admin_user_layout = user_layout + [
     [
         sg.TabGroup(
@@ -572,13 +565,16 @@ admin_user_layout = user_layout + [
     ]
 ]
 
-super_user_layout_normal += [
+super_user_layout = user_layout + [
     [
         sg.TabGroup(
             [
                 [
-                    sg.Tab("BACKUP", backup),
-                ]
+                    sg.Tab("User ID", userID1),
+                ],
+                [
+                    sg.Tab("Backup", backup),
+                ],
             ],
             key="-TAB GROUP-",
             expand_x=True,
@@ -586,6 +582,7 @@ super_user_layout_normal += [
         ),
     ]
 ]
+
 
 super_user_layout_emergency = [
     [sg.MenubarCustom(menu_def, key="-MENU-", font="Courier 15", tearoff=True)],
@@ -606,11 +603,6 @@ super_user_layout_emergency += [
         sg.TabGroup(
             [
                 [
-                    # sg.Tab("RUNNING", layout_running_main),
-                    # sg.Tab("show", layout_running_show),
-                    # sg.Tab("add", layout_running_add),
-                    # sg.Tab("delete", layout_running_delete),
-                    # sg.Tab("modify", layout_running_modify),
                     sg.Tab("BACKUP", restore),
                 ]
             ],
